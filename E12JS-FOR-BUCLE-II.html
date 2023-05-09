@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Bucles2 JS - FOR</title>
+    <meta charset="UTF-8">
+
+    <script>
+
+        let numero = prompt("Escriba usted un número de año:");
+
+        document.write("<h2>Los años de la década son:</h2>");
+        //document.write("<h3>Tabla de multiplicar del " + numero + "</h3>");
+        document.write('<ul style="list-style-type:none;">');
+
+        //++i Incrementa en 1 el valor de i
+        //--i Decrementa en 1 el valor de i
+          for(i=10; i>=0; --i)
+          {
+            document.write("<li>");
+            document.write( parseInt(numero) - i);
+            document.write("</li>");
+          }
+
+    </script>
+
+</head>
+<body>
+
+</body>
+</html>

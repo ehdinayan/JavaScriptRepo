@@ -1,0 +1,67 @@
+<!Doctype html>
+
+  <html lang="es">
+    <head>
+        <title>JS10-SWITCH-CALC</title>
+        <meta charset = "utf-8">
+          <link rel="stylesheet" href="CSS/estilos.css">
+          <script>
+
+            let firstDigit = prompt("Introduzca usted un número:");
+            let secondDigit = prompt("Ahora introduzca un segundo número:");
+            document.write('<h2>Ahora decida que operación aritmética desea realizar con ellos:</h2>');
+            document.write('<ol>');
+              document.write("<li> Multiplicarlos </li>");
+              document.write("<li> Sumarlos </li>");
+              document.write("<li> Dividir el 1ero por el segundo </li>");
+              document.write("<li> Dividir el segundo por el 1ero </li>");
+              document.write("<li> Restar al 1ero el segundo </li>");
+              document.write("<li> Restar al segundo el 1ero </li>");
+            document.write("</ol>");
+            document.write(firstDigit+ "," + " " + secondDigit);
+
+            let operating = prompt("Seleccione una operación de la lista que se muestra en el navegador:");
+
+            switch(operating)
+            {
+              case"1":
+              let mult = parseInt(firstDigit) * parseInt(secondDigit);
+              document.write( "<ul>" + "<li>" + mult + "</li>" + "</ul>" );
+              break;
+
+              case"2":
+              let sum = parseInt(firstDigit) + parseInt(secondDigit);
+              document.write( "<ul>" + "<li>" + sum + "</li>" + "</ul>" );
+              break;
+
+              case"3":
+              let divone = parseInt(firstDigit) / parseInt(secondDigit);
+              document.write( "<ul>" + "<li>" + divone + "</li>" + "</ul>" );
+              break;
+
+              case"4":
+              let divtwo = parseInt(secondDigit) / parseInt(firstDigit);
+              document.write( "<ul>" + "<li>" + divtwo + "</li>" + "</ul>" );
+              break;
+
+              case"5":
+              let rest = parseInt(firstDigit) - parseInt(secondDigit);
+              document.write( "<ul>" + "<li>" + rest + "</li>" + "</ul>" );
+              break;
+
+              case"6":
+              let restwo = parseInt(secondDigit) - parseInt(firstDigit);
+              document.write( "<ul>" + "<li>" + restwo + "</li>" + "</ul>" );
+              break;
+
+              default:
+              document.write("Por favor, seleccione un núm de la lista tras refrescar el navegador: ");
+              break;
+            }
+
+          </script>
+    </head>
+
+    <body>
+    </body>
+    </html>

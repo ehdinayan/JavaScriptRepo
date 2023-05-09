@@ -1,0 +1,54 @@
+<!Doctype html>
+
+  <html lang="es">
+    <head>
+        <title>JS09-SWITCH</title>
+        <meta charset = "utf-8">
+          <link rel="stylesheet" href="CSS/estilos.css">
+          <script>
+
+            let pregunta = prompt("Puedo decirle los meses que constan de 28, 30 o 31 dias, ¿cuales le interesan?:");
+
+            switch(pregunta)
+            {
+              case"28":
+              document.write("El mes de 28 dias es Febrero");
+              break;
+
+              case"30":
+              document.write("<h2>Los meses de treinta días son:</h2>");
+              document.write('<ul style="list-style-type:none">');
+                document.write("<li> Abril </li>");
+                document.write("<li> Junio </li>");
+                document.write("<li> Septiembre </li>");
+                document.write("<li> Noviembre </li>");
+              document.write("</ul>");
+              break;
+
+              case"31":
+              document.write("<h2>Los meses de treinta y un días son:</h2>");
+              document.write('<ul style="list-style-type:none">');
+                document.write("<li> Enero </li>");
+                document.write("<li> Marzo </li>");
+                document.write("<li> Mayo </li>");
+                document.write("<li> Julio </li>");
+                document.write("<li> Agosto </li>");
+                document.write("<li> Octubre </li>");
+                document.write("<li> Diciembre </li>");
+              document.write("</ul>");
+              break;
+
+
+
+              default:
+              document.write("Por favor introduzca el valor 28, 30 o 31. Refresque el navegador.")
+              break;
+
+            }
+
+          </script>
+    </head>
+
+    <body>
+    </body>
+    </html>

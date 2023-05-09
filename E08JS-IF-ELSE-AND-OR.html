@@ -1,0 +1,33 @@
+<!Doctype html>
+
+  <html lang="es">
+    <head>
+        <title>JS08-ELSEIF-AND-OR</title>
+        <meta charset = "utf-8">
+          <link rel="stylesheet" href="CSS/estilos.css">
+          <script>
+
+            const age= 18;
+            const title= "si";
+            const job= "si";
+
+
+            let edad = prompt("¿Qué edad tiene?:");
+            let univ = prompt("¿Tiene título universitario? Por favor, conteste si o no:");
+            let desemp = prompt("¿Se encuentra en situación de desempleo? Por favor, conteste si o no:");
+
+            if((edad >= age && univ == title) || (edad >= age && desemp == job))
+            {
+              document.write("Se le concede a usted la Beca, enhorabuena!");
+            }
+            else
+            {
+              document.write("Lo lamento, no se encuentra usted en las circunstancias apropiadas para concederle la Beca.");
+            }
+
+          </script>
+    </head>
+
+    <body>
+    </body>
+    </html>
