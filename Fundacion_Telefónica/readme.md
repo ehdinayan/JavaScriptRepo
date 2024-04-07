@@ -229,3 +229,47 @@ A veces necesitamos que cuando se cumple una condición se ejecute un código, y
 
   - **Infinity** es el valor de infinito cuando las operaciones dan dicho resultado.
   - **toFixed(digitos)** define el número de decimales a mostrar en una operación y redondea si es necesario.    
+
+
+  ## Módulo IV. Eventos y objetos
+
+  ## *Eventos*
+
+
+  Hasta el momento, todos los códigos que hemos visto siguen ejecutándose sentencia a sentencia, sin interactuar con el usuario.
+
+  Estos códigos son poco útiles en programas de JavaScript normales ya que se espera y desea una interacción con los clientes que estén usando esa página web. Así, clickar con el botón del ratón en ciertos apartados, mover el mismo ratón, o teclear pueden ser eventos que se produzcan dentro de nuestra aplicación y se traduzcan en funciones que se tienen que ejecutar en ciertos momentos en JavaScript.
+
+  El propio lenguaje nos aporta una serie de eventos para medir la interacción del usuario con nuestra aplicación. Estas funciones creadas en JavaScript son denominadas “manejadores de eventos” o “event handlers”.
+
+  Hay tres tipos de manejadores de eventos:
+
+  - Como atributos de las etiquetas HTML
+  - Como funciones en código JavaScript externo
+  - Semánticos
+
+  ![eventos](Media/Eventos.png)
+
+  ## *Objetos*
+
+  Para trabajar objetos en programación vamos a utilizar JSON (JavaScript Object Notation) es un formato para el intercambio de datos por la red, donde usualmente se utilizaba XML.
+
+  Es un conjunto de datos, comprendidos entre los que puede medir JavaScript que son objetos, Arrays, cadenas, booleanos y números en Javascript.
+
+  Llegó sobre 2001 gracias al apoyo incondicional de Douglas Crockford. Yahoo! ayudó a su difusión gracias a la adición de este formato en algunos de sus servicios web más innovadores. Google comienza a realizar sus feeds en JSON para su protocolo web GData a finales del 2006.
+
+  Es considerado como un lenguaje independiente de formato de los datos cuya especificación es descrita en RFC4627.
+
+  ## Manejadores de eventos
+
+  ## *Atributos HTML*
+
+  Queda incluido en el mismo atributo:
+
+  `<input type="button" value="pinchame" onclick="alert=('Gracias');"/>`
+
+  Este método es poco práctico ya que dificulta la reutilización del código más allá del atributo en cuestión. Por cierto, lo que está haciendo el código de arriba es hacer que aparezca el mensaje Gracias cuando se clica en el botón pinchame.
+
+  ## *Variable "this"*
+
+  Esta variable es especial en JavaScript.
