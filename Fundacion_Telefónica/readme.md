@@ -272,4 +272,65 @@ A veces necesitamos que cuando se cumple una condición se ejecute un código, y
 
   ## *Variable "this"*
 
-  Esta variable es especial en JavaScript.
+  Esta variable es especial en JavaScript. Se usa para que tome como  valor el invocador del elemento dentro del manejador. Es decir, qué componente nos ha invocado la función:
+
+  ```
+  <div id="contenido" style="width:180px; height:80px; border: thin
+   solid silver" onmouseover="this.style.borderColor='red';">
+  Sección de contenidos...</div>
+  ```
+  En el caso anterior, el componente CSS style es tomado por la función onmouseover para cambiar el color del borde del elemento html `<div>`. Al pasar el ratón por encima de este elemento, el color del borde cambia de color gris a rojo.
+
+  ## *Funciones externas*
+
+  Es mucho mejor para nuestro código y para la reutilización de nuestras funciones tenerlas en sentencias externalizadas. Así podemos llamar a cualquier función desde cualquier manejador de eventos en cualquier momento.
+
+  Por ejemplo, tenemos externalizada la función muestra, que básicamente muestra un mensaje de agradecimiento:
+
+   `funcion(muestra){ alert('Gracias')}`
+
+  Ahora la llamaremos desde el manejador de eventos `onclic` (al hacer click) desde el documento html al estar definiendo un botón:
+
+  ```
+  <input type="button" value="Pinchame" onclick="muestra()"/>
+  ```
+  ## *Eventos semánticos*
+
+  Esta implementación del manejador se basa en la externalización del código JavaScript, seleccionando el componente al que queremos agregar un manejador de evento y desvinculando completamente nuestro código HTML del código JavaScript.
+
+  ## Particularidades de JSON sobre JavaScript
+
+  Algunas de las particularidades o reglas del formato JSON a tener en cuenta son:
+
+  - Son duplas nombre-valor y los nombres van delimitados por comillas, tanto simples como dobles, aunque pueden aparecer sin ellas.
+  - JSON puede representar los seis tipos de valores de JavaScript: objetos, Arrays, números, cadenas, booleanos y null.
+  - Las fechas no son un tipo de objeto propio.
+  - Los números no pueden ir precedidos de ceros a no ser en el caso de notación decimal (Ejemplo: 0.001).
+  - JSON es considerado un lenguaje independiente
+  - Sus objetos deben ser considerados como cadenas Javascript, no como objetos nativos.
+
+  ## El estandar DOM
+
+  DOM (Document Object Model) es un agregado de utilidades diseñadas para la manipulación de XML. Además, DOM también se usa para manipulación de documentos XHTML y HTML.
+
+  DOM es una API de funciones que se pueden usar para la manipulación de las páginas XHTML de forma eficiente y rápida.
+
+  Antes de usar las funciones, DOM convierte internamente el XML original en una estructura fácilmente manejable formada por una jerarquía de nodos. De esta manera, DOM transforma el XML en una serie de nodos interconectados en árbol.
+
+  Ejemplo:
+
+  ```
+  !DOCTYPE html>
+<html lang="es">
+<head>
+  <title>Página sencilla</title>
+</head>
+<body>
+  <p> Esta página es <strong>muy sencilla</strong></p>
+</body>
+</html>
+```
+
+  El árbol que se genera no representa únicamente los contenidos del fichero origen (mediante los nodos del árbol) sino que representa sus relaciones (mediante las ramas del árbol que conectan los nodos).   
+
+  ![imagen](Media/ArbolDom.png)
