@@ -426,3 +426,5 @@ A veces necesitamos que cuando se cumple una condición se ejecute un código, y
   Al estar añadiendo nuevos elementos HTML al documento usaremos innerHTML en vez de innerText.
 
   Con `document.body.appendChild` añadimos un nuevo nodo a la sección body
+
+  Aquí dejo el [enlace](https://altocodigo.blogspot.com/2019/07/manejar-el-dom-en-javascript.html) que me ha ayudado a desarrollar y comprender el ejercicio:
