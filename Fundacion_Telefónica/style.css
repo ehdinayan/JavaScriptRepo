@@ -1,0 +1,18 @@
+*{font-family: Verdana, sans-serif;}
+
+h1 { text-align: center;
+     text-transform: uppercase;
+     text-shadow: rgb(150,150,150) 3px 3px;
+     color:hsl(120, 75%, 60%);}
+
+
+h2 { text-align: center;
+     color: blue;}
+
+p  { text-indent: 50px;
+     text-align: justify;}
+
+button  { display: inline-block;
+          margin-left: 50px; 
+          border-radius: 20px;
+          box-shadow: hsl(120, 75%, 60%) 3px 3px 2px 5px;}

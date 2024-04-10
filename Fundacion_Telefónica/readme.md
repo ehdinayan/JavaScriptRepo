@@ -334,3 +334,95 @@ A veces necesitamos que cuando se cumple una condición se ejecute un código, y
   El árbol que se genera no representa únicamente los contenidos del fichero origen (mediante los nodos del árbol) sino que representa sus relaciones (mediante las ramas del árbol que conectan los nodos).   
 
   ![imagen](Media/ArbolDom.png)
+
+  ## Manipulación de un HTML con DOM JavaScript
+
+  Una de las principales ventajas del uso del DOM es que permite a los desarrolladores web disponer de un control preciso sobre la estructura o forma del documento HTML o XML que están controlando. Las funciones que usa DOM permiten añadir, eliminar, modificar y reemplazar cualquier nodo de cualquier documento sencillamente.
+
+  Los documentos XML y HTML son convertidos por DOM en una jerarquía de nodos. Los nodos pueden ser de diferentes tipos:
+  - **Document** Es el nodo raíz de cualquier documento HTML y XML. Todos los demás salen de el.
+
+  - **DocumentType** Nodo que contiene la representación del DTD empleado en la página (indicado mediante el DOCTYPE)
+
+  - **Element** contenido definido por un par de etiquetas (o tags) de apertura y cierre `<etiqueta>...</etiqueta>` o de una etiqueta abreviada que se autocierra `<etiqueta/>`. Es el único nodo que puede tener tanto nodos hijos como atributos.
+
+  - **Attr** Representa el par nombre de atributo - valor
+
+  - **Text** Es el contenido del texto que se halla entre una etiqueta de apertura y una de cierre. También guarda el contenido de una sección de tipo CDATA.
+
+  - **CDataSection** Nodo que muestra una sección tipo `<![CDATA[]]>`
+
+  - **Comment** Un comentario de XML
+
+  - **Otros menos usuales como** DocumentFragment, Entity, EntityReference, ProcessingInstruction y Notation.
+
+  ## Selectores y DOM
+
+  Una vez DOM ha formado automáticamente el árbol completo de nodos de la página, ya es posible usar sus funciones para obtener la información sobre los nodos o controlar su contenido:
+
+  ![imagen](Media/NumeracionNodos.png)
+
+  Y ahora ya podemos usar cualquier función o propiedad de DOM con nuestro JavaScript:
+
+  ![](Media/ManipulacionDom.png)
+
+  ## Manejo del DOM ejercicios
+
+  - Obtener la lista de elementos de etiqueta `<p>` y mostrarlos en  un alert de JavaScript.
+  - Añadir un nuevo elemento `<p>` con el texto “Texto del nuevo párrafo” y que sea hijo del body
+
+
+
+
+  Lo que hay que hacer es crear botones y aplicarles funciones para hacer que a través de código JavaScript se puedan manipular los elementos del DOM.
+
+  En el documento HTML crearemos el botón y le asociaremos una función al evento "onclick":
+
+  `<button onclick="miFuncion1()">Recopilar</button>`
+
+  vamos a ver como sería esa función JavaScript.
+
+  Creamos la variable párrafos con:
+  ```
+  var parrafos = document.getElementByTagName("p")
+  ```
+  para definir esta variable ya estamos usando dos elementos del DOM: **document**, que es el nodo raíz de cualquier documento HTML, y **element**, que hace referencia al contenido definido por un par de etiquetas (tags) de apertura y cierre.
+
+  Lo siguiente será definir un bucle en el que un contenedor (i), haga una iteración por los diferentes párrafos y el contenido de cada posición sea mostrado a través de la variable **texto**, que será un string vacío. entonces tendríamos lo siguiente:
+
+  ```
+  function recopilar(){   
+  var texto="";   
+  var parrafos = document.getElementsByTagName("p");   
+  for(var i=0;i<parrafos.length;i++){   
+  texto+=parrafos.item(i).innerText+", ";   
+  };   
+  ```
+  Así hacemos que la variable **texto** sea igual al texto contenido entre las etiquetas `<p>`(innerText, otro elemento del DOM), que a su vez es contenido en la variable parrafos a través del iterador (i). Ahora hay que sacarlo por la pantalla:
+
+  ```
+  function recopilar(){
+    var texto="";
+    var parrafos = document.getElementsByTagName("p");
+    console.log(parrafos);
+    for(var i=0;i<parrafos.length;i++){
+      texto+=parrafos.item(i).innerText+", ";
+    };
+    texto=texto.slice(0, -2)+".";//cambia la última coma por punto
+    alert(texto);
+  }
+  ```
+  Con el método slice el resultado queda ya bien presentado.
+
+  Para el segundo caso lo que haremos será la siguiente función:
+
+  ```
+  function nuevoParrafo(){
+		var nuevotexto = document.createElement("p");
+		nuevotexto.innerHTML = "Texto del nuevo párrafo";
+		document.body.appendChild(nuevotexto);
+	}
+  ```
+  Al estar añadiendo nuevos elementos HTML al documento usaremos innerHTML en vez de innerText.
+
+  Con `document.body.appendChild` añadimos un nuevo nodo a la sección body
