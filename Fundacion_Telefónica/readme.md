@@ -309,7 +309,7 @@ A veces necesitamos que cuando se cumple una condición se ejecute un código, y
   - JSON es considerado un lenguaje independiente
   - Sus objetos deben ser considerados como cadenas Javascript, no como objetos nativos.
 
-  ## El estandar DOM
+  ## El estandard DOM
 
   DOM (Document Object Model) es un agregado de utilidades diseñadas para la manipulación de XML. Además, DOM también se usa para manipulación de documentos XHTML y HTML.
 
@@ -428,3 +428,62 @@ A veces necesitamos que cuando se cumple una condición se ejecute un código, y
   Con `document.body.appendChild` añadimos un nuevo nodo a la sección body
 
   Aquí dejo el [enlace](https://altocodigo.blogspot.com/2019/07/manejar-el-dom-en-javascript.html) que me ha ayudado a desarrollar y comprender el ejercicio
+
+  ## MODULO V. Ajax y Jquery
+
+  ## *AJAX*
+
+  Se presentó por vez primera en el artículo "Ajax: A New Approach to Web Applications" de Jesse James Garrett en 2005. Anteriormente no existía un término que hiciera referencia a un tipo nuevo de programación web que estaba surgiendo.
+
+  Realmente, el término AJAX es un acrónimo (Asynchronous JavaScript + XML).
+
+  El artículo define AJAX de la siguiente forma:
+
+  **"Ajax no es una tecnología en si mismo. En realidad, se trata de varias tecnologías independientes que se unen de formas nuevas y sorprendentes"**
+
+  ## *JQUERY*
+
+  Es una librería JavaScript que nos permite acceder a los objetos del DOM de manera simple creada por John Resig (Mozilla).
+
+  Como los desarrollos web son cada vez más complejos, con funcionalidades de autocompletar, drag & drop, validaciones y un largo etcétera; se necesitan algunas herramientas que no nos las hagan desarrollar desde cero.
+
+  Esto son las librerías de terceros, entre ellas JQuery, que están hechas para simplificar y aclarar nuestro código JavaScript. Adicionalmente nos suelen resolver los problemas de códigos que funcionen de manera diferente en distintos navegadores.
+
+  *Ventajas*
+
+  - Ahorra muchas líneas de código
+  - Transparenta el soporte de nuestra aplicación para los principales navegadores
+  - Provee un mecanismo para capturar los Eventos
+
+
+  *Desventajas*
+
+  - Probee un conglomerado de funciones para hacer animaciones en la página de una manera muy simple.
+  - Integra funcionalidades para trabajar con Ajax
+
+
+  *Las desventajas parecen también ventajas, pero bueno ya se verá...xd
+
+## **Ajax: tecnologías implicadas y funcionamiento**
+
+**Tecnologías**
+
+El desarrollo de aplicaciones AJAX requiere un conocimiento avanzado de todas y cada una de las tecnologías y componentes siguientes:
+
+- XHTML y CSS, crea una presentación basada en estándares.
+- XMLHttpRequest, es el objeto encargado del intercambio asíncrono de información
+- DOM, para la manipulación e interacción dimámica de la capa de presentación.
+- XML, XSLT y JSON, son las tecnologías que constituyen el intercambio y la manipulación de información.
+- JavaScript, como unión de todas las tecnologías.
+
+
+![](Media/Tecnologias.png)
+
+
+**Funcionamiento**
+
+En los antiguos desarrollos web, acciones que realice nuestro cliente sobre la página desencadenaban llamadas al servidor. Y una vez el servidor hubiera acabado con ese tráfico de información devolvía y, por tanto, recargaba, la página web en nuestro cliente.
+
+Veamos como es este proceso en Ajax:
+
+![](Media/Funcionamiento.png)
