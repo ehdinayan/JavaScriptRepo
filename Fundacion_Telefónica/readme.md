@@ -487,3 +487,58 @@ En los antiguos desarrollos web, acciones que realice nuestro cliente sobre la p
 Veamos como es este proceso en Ajax:
 
 ![](Media/Funcionamiento.png)
+
+## Ajax: peticiones y respuestas
+
+*El objeto XMLHttpRequest*
+
+- **Objetivo:** realizar peticiones asíncronas al servidor
+- Es la columna vertebral de todos los desarrollos con AJAX
+- Aceptado por todos los clientes web (Microsoft lo mete en IE 5 como un  objeto ActiveX)
+
+
+![](Media/XMLHTTPRequest.png)
+
+
+*Propiedades del objeto XMLHTTPRequest*
+
+
+![](Media/PropiedadesXMLHTTPRequest.png)
+
+## Casos prácticos AJAX
+
+A continuación te proponemos unos casos prácticos, leelos con atención y desarrolla la actividad presentada. Así podrás practicar todo lo aprendido.
+
+*Bueno cabe decir que no se provee de ningún resultado correcto para contrastar la actividad, hay que espabilarse con lo que se explica en el curso y ya está...veré que puedo hacer xd*
+
+**JSON**
+
+![](Media/PracticaJSON.png)
+
+Hay que hacer un objeto JSON que permitiera en caso necesario, acceder a la información de los contactos almacenada en él, supongo...
+
+voy a poner aquí el código y cuando crea que está bien buscaré una forma de probarlo en local con XAMPP
+
+```
+{
+    "objectid": "Phonebook",
+    "owner": "Alejandro",
+    "contacts": [
+        {
+            "objectid": "contact-info",
+            "phone": "",
+            "name": "",
+            "title": "",
+            "age": "",
+            "adress": [
+                {
+                    "objectid": "adress-info",
+                    "street": "",
+                    "city": "",
+                    "state": ""
+                }
+            ]
+        }
+    ]
+}
+```
