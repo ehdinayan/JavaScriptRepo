@@ -542,3 +542,182 @@ voy a poner aquí el código y cuando crea que está bien buscaré una forma de 
     ]
 }
 ```
+
+Bueno tendría que crear un documento html que contuviera diversos campos sobre los que recopilar información a partir del fichero JSON.
+Cada campo HTML tendrá un identificador igual al del fichero JSON para el mismo campo.
+
+Por último habría que crear una función JavaScript que obtenga la información del registro completo desde el HTML, haciendo una llamada al objeto Phonebook por ejemplo y volcando la info del JSON al HTML.  
+
+Si tuviéramos diferentes contactos con informaciones diferentes, habría que pasarle a la función al parámetro del nombre del contacto por ejemplo, para que mostrase en los campos del HTML la información correcta.
+
+**REALIZACIÓN DE PETICIÓN AJAX A UN XML**
+
+Teniendo el archivo XML cuyo nombre es ejemploXML.xml y con este
+contenido: Hola que tal
+
+Realizar un formulario con un texto y un botón de submit que cuando
+se envíe una petición por Ajax al servidor obtenga el contenido de
+este XML y lo ponga en el campo de texto.
+
+Bueno para resolver esto podríamos tener algo como un documento HTML asi (obtenido del pdf del curso):
+
+```
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function loadXMLDoc()
+{
+var xmlhttp;
+if (window.XMLHttpRequest)
+{// code for IE7+, Firefox, Chrome, Opera, Safari
+xmlhttp=new XMLHttpRequest();
+}
+else
+{// code for IE6, IE5
+xmlhttp=new ActiveXObject(“Microsoft.XMLHTTP”);
+}
+xmlhttp.onreadystatechange=function()
+{
+if (xmlhttp.readyState==4 && xmlhttp.status==200)
+{
+document.getElementById(“myDiv”).innerHTML=xmlhttp.responseXML;
+}
+}
+xmlhttp.open(“GET”,”ejemploXML.xml”,true);
+xmlhttp.send();
+}
+</script>
+</head>
+<body>
+<div id=”myDiv”><h2>Let AJAX change this text</h2></div>
+<button type=”button” onclick=”loadXMLDoc()”>Change Content</button>
+</body>
+</html>
+```
+
+**Analizando el código:**
+
+El texto que debe ser sustituido por lo que hay en el fichero XML.text lo encontramos en la línea :
+
+`<div id=”myDiv”><h2>Let AJAX change this text</h2></div>`
+
+Partiendo de esto, los pasos son los siguientes:
+
+1 - El botón de mi html `<button type=”button” onclick=”loadXMLDoc()”>Change Content</button>`
+lanza con el evento click la función loadXMLDoc(), la cual crea una variable llamada xmlhttp.
+
+2 - El primer condicional nos sirve para saber si nuestro navegador
+actual puede crear el objeto XMLHttpRequest que dependiendo
+del navegador lo creará de una manera u otra:
+```
+function loadXMLDoc()
+{
+var xmlhttp;
+if (window.XMLHttpRequest)
+{// code for IE7+, Firefox, Chrome, Opera, Safari
+xmlhttp=new XMLHttpRequest();
+}
+else
+{// code for IE6, IE5
+xmlhttp=new ActiveXObject(“Microsoft.XMLHTTP”);
+}
+```
+
+3 - Abrimos la comunicación GET para pedir el fichero ajax.txt y
+enviamos la petición (se puede enviar tanto asíncrona como
+síncronamente dependiendo del valor del booleano):
+
+```
+xmlhttp.open(“GET”,”ajax.txt”,true);
+xmlhttp.send();
+```
+
+4 - La función onreadystatechange() se ejecutará a cada cambio
+de estado y cuando la petición sea de 200 y el readystate de 4
+significará que se ha completado con éxito (con cualquier otra
+solución debemos tratar el error o los errores que hemos visto en
+las tablas anteriores):
+
+5 - Finalmente seleccionamos el div en cuestión (a partir del API del
+DOM) y cambiamos su texto plano por el que me ha venido en mi
+fichero ajax.txt:
+```
+xmlhttp.onreadystatechange=function()
+{
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+  {
+    document.getElementById(“myDiv”).innerHTML=xmlhttp.responseXML;
+  }
+}
+```
+ *Nota importante:*
+
+En el ejemplo del curso se sustituye el texto del HTML por el de un fichero `.txt`, pero en el caso práctico hay que sustituirlo por el de un fichero XML (ejemploXML.xml), así que usamos la propiedad `XMLHttpRequest.responseXML` en lugar de `XMLHttpRequest.responseText` en la linea: `document.getElementById(“myDiv”).innerHTML=xmlhttp.responseXML;`
+
+
+**TRANSFORMACIONES CON JSON**
+
+Douglas Crawford nos dio la posibilidad de transformar un fichero
+JSON a String y viceversa.
+
+Use las funciones que este genio implementó con un objeto JSON
+que contenga al menos otro objeto y un array de objetos como
+propiedades. Muestre por consola el resultado de transformarlo a
+String y vuelva a transformar ese String a objeto comprobando que
+mantiene todas sus propiedades.
+
+Bueno he desarrollado este caso de forma muy básica y sencilla simplemente para mostrar la funcionalidad de `JSON.parse()` y `JSON.stringify()`:
+
+Partiendo del documento html:
+```
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset= "utf-8">
+    <tittle>Practico Ajax</tittle>
+</head>
+
+<body>
+
+<div id="info"></div>
+
+<script type="text/javascript">
+
+  var objetoJSON =
+  {
+    "nombre": "Alejandro",
+    "apellidos": "M L",
+    "Edad": "45"
+  }
+  document.write(typeof objetoJSON);
+
+
+  var cadenaJSON = '{"nombre": "Alejandro", "apellidos": "M L", "Edad": "45"}'
+  document.write(typeof cadenaJSON);
+
+  var personaJSON = JSON.parse(cadenaJSON);
+  document.write(typeof personaJSON);
+
+  var stringJSON = JSON.stringify(personaJSON);
+  document.write(typeof stringJSON);
+
+</script>
+
+</body>
+</html>
+```
+
+**Analizando el código:**
+
+Como se aprecia, partimos de un objeto JSON guardado en la variable `objetoJSON` .Convertimos el objeto en cadena escribiendo el contenido de la misma variable en una misma línea y añadiendo una comilla simple al principio y otra al final. A la nueva variable la llamamos `cadenaJSON`.
+
+Para comprobar que a la primera se considera un objeto y la segunda una cadena por parte del navegador, usamos la función `document.write(typeof [variable1/variable2])`
+
+Lo siguiente que hacemos es pasar de cadena a objeto y de nuevo de objeto a cadena usando las funciones `JSON.parse()` y `JSON.stringify()` anteriormente mencionadas.
+
+Si cargamos el documento tal cual lo tenemos aqui, sin comentar ninguna línea, nos va a decir:
+
+`objectstringobjectstring`
+
+Dejo el [enlace](https://www.youtube.com/watch?v=gYqEzjHDTWI) al estupendo vídeo de youtube que muestra el ejemplo.

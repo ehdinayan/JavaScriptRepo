@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset= "utf-8">
+    <tittle>Practico Ajax</tittle>
+</head>
+
+<body>
+
+<div id="info"></div>
+
+<script type="text/javascript">
+
+  var objetoJSON =
+  {
+    "nombre": "Alejandro",
+    "apellidos": "M L",
+    "Edad": "45"
+  }
+  document.write(typeof objetoJSON);
+
+
+  var cadenaJSON = '{"nombre": "Alejandro", "apellidos": "M L", "Edad": "45"}'
+  document.write(typeof cadenaJSON);
+
+  var personaJSON = JSON.parse(cadenaJSON);
+  document.write(typeof personaJSON);
+
+  var stringJSON = JSON.stringify(personaJSON);
+  document.write(typeof stringJSON);
+
+</script>
+
+</body>
+</html>
