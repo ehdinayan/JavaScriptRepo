@@ -721,3 +721,101 @@ Si cargamos el documento tal cual lo tenemos aqui, sin comentar ninguna línea, 
 `objectstringobjectstring`
 
 Dejo el [enlace](https://www.youtube.com/watch?v=gYqEzjHDTWI) al estupendo vídeo de youtube que muestra el ejemplo.
+
+## *Maneras de desarrollar con JQuery*
+
+En las librerías de terceros (como en muchas otras materias) debemos adaptarnos a sus mecanismos de uso ya que intentar desarrollar como lo hacemos habitualmente podría hacer que nuestro código no tuviera el nivel que fuera de esperar.
+
+Lo adecuado sería ir viendo cual es la mecánica al trabajar con dicha librería mediante problemas sencillos e ir complicándolo a medida que entendemos la propia librería.
+
+**JQUERY: SELECTORES**
+
+- **id**
+- **clases**
+- **selectores anidados. Ej:**
+
+  `var a = $("div.redondeado");` Este selector seleccionaría una clase o más, y dentro de las mismas aquellos elementos que pertenecen a la clase *redondeado*
+
+- **agrupación de selsctores. Ej:**
+
+  `var a = $("#uno,div,div.redondeado");` Esta es la sintaxis para agrupar en una misma variable diferentes elementos por **id** y también por **clase** o simplemente por **tipo de elemento**
+
+**JQUERY: FUNCIONES PRINCIPALES**
+
+Con estas funciones podemos manipular elementos del DOM y tratar eventos en nuestras selecciones, vamos a ello.
+
+- **text()** extrae el texto plano contenido entre los elementos seleccionados
+- **text(valor)** reemplaza el texto plano con lo que hayamos pasado como valor
+- **attr(nombre propiedad)** obtiene el valor de un atributo para nuestra selección
+- **attr(nombre propiedad, valor)** modifica el atributo con el nuevo valor dentro de nuestra selección
+- **removeAttr(nombre propiedad)** elimina el atributo de nuestra selección
+- **addClass(valor)** añade la clase que hemos pasado en valor a nuestra selección
+- **removeClass(valor)** la elimina
+- **html()** obtiene html contenido dentro de nuestra selección
+- **html(valor)** sustituye el html de nuestra selección por el nuevo html que le pasamos por valor
+- **show()/hide()** muestra u oculta nuestra selección por el navegador
+- **fadein()/fadeout()** igual que las anteriores pero de forma paulatina
+- **toggle** cambia nuestra selección de visible a invisible y viceversa
+- **each** iteración por los elementos de un array que implementa JQuery
+
+
+**FUNCIONES PARA MANIPULACIÓN DEL DOM**
+
+- **empty()** vacía de contenido nuestra selección
+- **append(valor)** añade un componente o html que pasamos por parámetro al final de nuestra selección, justo antes de la etiqueta de cierre.
+- **prepend(valor)** igual que la anterior pero ubica el valor pasado como parámetro justo después de la etiqueta de apertura
+- **remove()** elimina la selección de nuestro mapa documental
+- **eq(valor)** selecciona un componente de nuestra selección pasándole como parámetro la posición que ocupa en el array
+
+**TRATAMIENTO DE EVENTOS CON JQUERY - Añadir funcionalidad a las selecciones**
+
+- **click()** escucha de evento click del mouse. Se le puede pasar como parámetro la función que queremos que se ejecute cuando ocurra el evento.
+- **dblclick()** igual que la anterior pero para doble click
+- **mouseover()/mouseout()** al entrar y salir de la zona de nuestra sellección con el ratón, respectivamente
+- **hover(mouseover(),mouseout())** define los dos comportamientos anteriores para un único evento (hover)
+- **mousemove()** al moverse el ratón
+- **Mousedown()/mouseup()** la acción que se ejecute dura lo mismo que la presión sobre el botón del ratón, y finaliza al soltar el botón.
+- **focus()/blur()** actúa cuando se gana o se pierde el foco, respectivamente
+
+## Casos prácticos Jquery
+
+Construir un HTML con dos `<input>` que implementen los eventos
+de “tomar foco” y “perder foco” cuya funcionalidad sería cambiar
+el estilo del texto de dichos elementos a un color rojo
+
+Bueno para este ejercicio lo he hecho sólo con un input, porque de haber sido 2 se me complicaba la cosa ya que debía haber implementado control de flujo o condicionales usando identificadores por ejemplo, pero como no domino la sintaxis todavía pues lo dejo así:
+
+```
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Formularios</title>
+  <script src="jquery-3.7.1.min.js"></script>
+  <script>
+  $(document).ready(function()
+  {
+    $("input").focus(function()
+    {
+      $("input").css("color", "red");
+    });
+    $("input").blur(function()
+    {
+      $("input").css("color", "black");
+    });
+  });
+    	</script>
+</head>
+<body>
+  <section>
+      <p><input id="focus" type="text" value="TEXTO A CAMBIAR DE COLOR"></p></br>
+  </section>
+</body>
+</html>
+```
+
+De esta manera sencilla cuando se pulsa en el recuadro de texto el mismo cambia de color, y cuando se pulsa fuera vuelve a su color original.
+
+Importante tener descargado el fichero JQuery en el mismo directorio que nuestro documento html e indexado correctamente para que funcione:
+
+`<script src="jquery-3.7.1.min.js"></script>`
