@@ -779,7 +779,7 @@ Con estas funciones podemos manipular elementos del DOM y tratar eventos en nues
 
 ## Casos prácticos Jquery
 
-Construir un HTML con dos `<input>` que implementen los eventos
+1 - Construir un HTML con dos `<input>` que implementen los eventos
 de “tomar foco” y “perder foco” cuya funcionalidad sería cambiar
 el estilo del texto de dichos elementos a un color rojo
 
@@ -819,3 +819,57 @@ De esta manera sencilla cuando se pulsa en el recuadro de texto el mismo cambia 
 Importante tener descargado el fichero JQuery en el mismo directorio que nuestro documento html e indexado correctamente para que funcione:
 
 `<script src="jquery-3.7.1.min.js"></script>`
+
+
+2 - Construir un HTML con varios <p> y un js que lea estas etiquetas.
+El js resaltará de amarillo aquellos párrafos cuyo contenido sea
+mayor de 100 caracteres.
+
+Bueno amiguis, no nos vamos a engañar: he realizado este ejercicio con Chat GPT, pero bueno lo importante es que lo entiendo aunque podría practicar a ver si soy capaz de escribir el código yo solo:
+
+```
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Formularios</title>
+  <style>
+  .highlight {
+    background-color: yellow;
+  }
+  </style>
+  <script src="jquery-3.7.1.min.js"></script>
+  <script>
+    	$(document).ready(function() {
+  	       // Seleccionar todos los elementos <p>
+  		     $('p').each(function()
+           {
+    			         // Verificar si la longitud del contenido del párrafo es mayor a 100 caracteres
+    			         if ($(this).text().length > 100)
+                   {
+      				           // Si es mayor a 100 caracteres, agregar la clase de resaltado
+      				           $(this).addClass('highlight');
+    			         }
+  		     });
+	    });
+
+    </script>
+  </head>
+  <body>
+  <p>Este es un párrafo corto.</p>
+  <p>Este es un párrafo un poco más largo que el primero.</p>
+  <p>Este es un párrafo con un contenido mayor a 100 caracteres. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec purus auctor, mattis nisl nec, pulvinar ex.</p>
+  <p>Este es otro párrafo con contenido extenso. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id tortor id dui luctus pharetra. Nam porttitor, felis at dapibus euismod, eros sem ullamcorper ipsum, quis aliquam enim ex vel eros. Sed consequat risus non nunc placerat, ac vehicula nisi sollicitudin.</p>
+</body>
+</html>
+```
+
+Lo que hacemos es crear la regla CSS para clase primero, y utilizar JQuery para añadir añadir dicha clase al elemento `<p>` que toque, en función de su longitud:
+
+```
+if ($(this).text().length > 100)
+{
+      // Si es mayor a 100 caracteres, agregar la clase de resaltado
+      $(this).addClass('highlight');
+}
+```
+ 
