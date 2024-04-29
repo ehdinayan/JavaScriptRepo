@@ -872,4 +872,128 @@ if ($(this).text().length > 100)
       $(this).addClass('highlight');
 }
 ```
- 
+
+
+## **Módulo VI. AngularJS y NodeJS**
+
+## *AngularJS*
+
+Nos encontramos ante un framework JavaScript de código abierto que se denomina AngularJS, que está siendo respaldado por Google, y ayuda con la construcción de las Single Page Applications o aplicaciones de una sola página.
+
+El patrón Single Page Applications define que podemos construir o desarrollar aplicaciones web en una única página html, teniendo todo el ciclo de vida seleccionado en dicha página, y variando los componentes y controles con códigos JavaScript y las librerías o frameworks como AngularJS.
+
+## *NodeJS*
+
+Las primeras evoluciones de JavaScript vivían en los navegadores. Pero esto es sólo un contexto. Debemos tener claro que JavaScript es un lenguaje "completo": Se utiliza en muchos otros contextos. Node.js realmente es sólo otro contexto: te permite ejecutar e interpretar código JavaScript en el backend, es decir, fuera del navegador.
+
+Para utilizar el código JavaScript en el backend, éste necesita ser interpretado y, bueno, ejecutado. Esto es lo que Node.js hace, con el uso de la Máquina Virtual V8 de Google, el mismo entorno de ejecución para JavaScript que el navegador Google Chrome.
+
+**ANGULAR: Principios de funcionamiento y elementos básicos**
+
+AngularJS revisa el HTML que puede contener atributos de las etiquetas personalizadas adicionales (de la propia librería), obedece a las directivas de los atributos personalizados, y une los elementos de entrada o salida del documento a un modelo representado por las variables de JavaScript.
+
+
+![](Media/AngularJS.png)
+
+**Directivas**
+
+Las directivas son atributos que se incluyen dentro de las etiquetas de nuestro código HTML para conectar la librería AngularJS con esos componentes que existen en nuestro mapa documental. Directivas hay muchas, por ejemplo:
+
+- **ng-app** Auto arranca una aplicación Angular, nos selecciona el elemento raíz y se sitúa como atributo dentro de la etiqueta que deseas que sea la raíz de la aplicación. Se declara tal como sigue:
+
+  `<html ng-app>`
+
+- **ng-controller** Directiva que se usa para los controladores:
+  ```
+  <body>
+    <div ng-controller=”nombre_de_controlador”>
+      <h1>Hola </h1>
+    <div/>
+  </body>
+  ```
+
+
+
+**Controladores**
+
+Los controladores en AngularJS son los encargados de controlar los datos de las aplicaciones AngularJS. Los controladores son objetos de JavaScript.
+
+Las aplicaciones AngularJS son controladas por los controladores.
+Un controlador no es más que un objeto JavaScript, que se crea con
+el constructor de objetos de JavaScript. El ámbito de la aplicación
+está definido por `$scope` y se corresponde con el elemento HTML
+asociado a la aplicación. Ejemplo:
+```
+<div ng-app="" ng-controller="cochesController">
+  Marca: <input type="text" ng-model="coche.marca"></br>
+  Modelo: <input type="text" ng-model="coche.modelo"></br>
+  El coche es:{{coche.marca + " " + coche.modelo}}
+</div>
+<script>
+  function cochesController($scope)
+  {
+    $scope.coche =
+    {
+      marca: "Audi",
+      modelo: "A5"
+    };
+  }
+</script>
+  ```
+
+*Analizando el código:*
+
+la aplicación AngularJS está definida por la directiva ng-app. La aplicación corre dentro de elemento `<div>`
+
+La directiva ng-controller indica el nombre del objeto correspondiente al controlador. La función cocheController es el constructor estándar del objeto JavaScript.
+
+El objeto controlador tiene una propiedad: `$scope.coche`. El objeto coche tiene dos propiedades: marca y modelo.
+
+La directiva ng-model enlaza los campos `<input/>` a las propiedades del controlador (marca y modelo).
+
+**Módulos**
+
+Tus aplicaciones en AngularJS estarán compuestas por módulos. Todos los controladores de AngularJS deben pertenecer a un módulo. Con el uso de módulos mantenemos nuestro código limpio y bien organizado.
+
+Esto se hace así para que entre otras cosas, los controladores no ensucien el ámbito global de JavaScript. Además, en los ejemplos que hemos ido viendo se han usado funciones globales. Esto no está bien.
+
+Las variables globales y las funciones globales no se deben usar en las aplicaciones de AngularJS, ya que podrán ser sobrescritos o eliminados por otros scripts.
+
+Para corregir este problema, en AngularJS hacemos uso de los módulos
+Aquí un ejemplo usando un controlador simple:
+
+```
+<!DOCTYPE html>
+< html >
+< head >
+  < script src = “//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js” ></script >
+</ head >
+< body >
+  < div ng-app = “miAplicacion” ng-controller = “miControlador” >
+    {{ nombre + “ “ + apellidos }}
+  </ div >
+<script >
+  var app = angular.module( “miAplicacion” , []);
+  app.controller( “miControlador” , function ($scope) {
+    $scope.nombre = “Mario”;
+    $scope.apellidos = “Flores”;
+    });
+</ script >
+</ body >
+</ html >
+```
+
+**Casos Prácticos: AngularJS:**
+
+*Nuestra primera aplicación con Angular*
+
+Realizar una aplicación que muestre por pantalla, mediante
+directivas de Angular, la siguiente imagen:
+
+![](Media/AngularPráctico.png)
+
+Debemos ser capaces de filtrar estos datos mediante el input
+superior.
+
+Aparte, los datos serán guardados en un array de objetos JSON
+óptimo para dicha funcionalidad.
