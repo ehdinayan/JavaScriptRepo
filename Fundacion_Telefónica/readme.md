@@ -997,3 +997,137 @@ superior.
 
 Aparte, los datos serán guardados en un array de objetos JSON
 óptimo para dicha funcionalidad.
+
+Bueno pues aquí está el ejercicio con la inestimable ayuda de Chat GPT y mis sugerencias para ir mejorando y simplificando el código:
+
+```
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Sugerencias con AngularJS (Filtrado por Número)</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+
+  </script>
+  <style>
+  /* Estilos para la lista */
+  .friends-list {
+    /*border: 1px solid black; Borde negro de 1px alrededor de la lista de amigos */
+    padding: 5px; /* Espacio interno */
+    display: inline-block; /* Hace que el contenedor se ajuste al contenido */
+    margin-top:10px;/* separación entre caja de texto y lista*/
+    }
+  }
+
+  .friend-item {
+  margin-bottom: 5px; /* Espacio entre elementos de la lista */
+  }
+  </style>
+</head>
+<body>
+
+<div ng-controller="MainController">
+  Tengo 10 amigos, que son: <input type="text" ng-model="selectedNumber" placeholder="Filtrar amigos..."></br>
+  <div class="friends-list">
+    <div ng-repeat="item in filteredData" class="friend-item">{{ '[' + item.number + '] ' + item.name + ' que tiene ' + item.age + ' años' }}</div>
+  </div>
+</div>
+
+<script>
+angular.module('myApp', [])
+  .controller('MainController', ['$scope', function($scope) {
+    $scope.data = [
+        { number: 1, name: 'John', age: 25 },
+        { number: 2, name: 'Alice', age: 30 },
+        { number: 3, name: 'Bob', age: 35 },
+        { number: 4, name: 'Carol', age: 40 },
+        { number: 5, name: 'Tom', age: 45 },
+        { number: 6, name: 'Eve', age: 50 },
+        { number: 7, name: 'ChatGPT', age: 2 },
+        { number: 8, name: 'Grace', age: 60 },
+        { number: 9, name: 'Helen', age: 65 },
+        { number: 10, name: 'Alfred', age: 70 }
+      ];
+
+      $scope.$watch('selectedNumber', function(newValue, oldValue)
+      {
+        $scope.filteredData = $scope.data;
+
+        if (newValue !== oldValue)
+        {
+          if (newValue !== '')
+          {
+              // Filtrar los datos si el número introducido es válido
+              $scope.filteredData = $scope.data.filter(function(item)
+              {
+                  return item.number.toString() === newValue;
+              });
+          }
+        }
+      });
+    }]);
+</script>
+
+</body>
+</html>
+```
+
+*Analizando el código*
+
+**Directivas AngularJS usadas**
+
+- **ng-app** Está inicializada en la raíz del documento HTML: `<html lang="en" ng-app="myApp">` Se utiliza en el elemento raíz del HTML para indicar a AngularJS qué parte de la página debe controlar.
+
+- **ng-controller** Está en el elemento HTML donde la aplicación debe ejecutarse, en este caso el primer elemento div (padre) del documento:
+```
+<body>
+<div ng-controller="MainController">
+```
+Se utiliza en elementos HTML para establecer el controlador que se aplicará a ese elemento y sus descendientes.
+
+- **ng-model** Se encuentra como propiedad del input text o caja de texto para vincular su valor al modelo de datos del controlador, que será el objeto JSON que contiene la información:
+`<input type="text" ng-model="selectedNumber" placeholder="Filtrar amigos..."></br>`
+
+- **ng-repeat** En este caso, ng-repeat se aplica a un elemento HTML para repetir su contenido para cada elemento en la lista de amigos filtrados:
+
+```
+  <div ng-repeat="item in filteredData" class="friend-item">{{ '[' + item.number + '] ' + item.name + ' que tiene ' + item.age + ' años' }}</div>
+```
+`{{}}` Esta es una expresión de interpolación de AngularJS que se utiliza para insertar valores de variables o expresiones JavaScript en el HTML. En este caso, estamos concatenando cadenas de texto y variables **(item.number, item.name y item.age)** para formar una cadena que representa la información del amigo en el formato deseado.
+
+Esto es una de las cosas poderosas de AngularJS: la capacidad de combinar HTML y JavaScript de manera declarativa para crear interfaces de usuario dinámicas.
+
+**Lo que ocurre al introducir un valor en la caja de texto:**
+
+```
+$scope.$watch('selectedNumber', function(newValue, oldValue)
+{
+  $scope.filteredData = $scope.data;
+
+  if (newValue !== oldValue)
+  {
+    if (newValue !== '')
+    {
+        // Filtrar los datos si el número introducido es válido
+        $scope.filteredData = $scope.data.filter(function(item)
+        {
+            return item.number.toString() === newValue;
+        });
+    }
+  }
+});
+
+```
+
+AngularJS registra un observador en la propiedad **$scope.selectedNumber (asociada a la directiva ng-model, que es el cuadro de texto)** a través del método **$watch**. Esto significa que AngularJS supervisará cualquier cambio que ocurra en esta propiedad y ejecutará la función de devolución de llamada **(function(newValue, oldValue))** proporcionada cuando se detecte un cambio.
+
+Esta función de devolución de llamada recibe dos parámetros: **newValue y oldValue**. newValue es el nuevo valor de la propiedad observada, mientras que oldValue es el valor anterior de la propiedad antes del cambio.
+
+Dentro de la función de devolución de llamada, comparamos **newValue con oldValue** para determinar si ha ocurrido un cambio en la propiedad **$scope.selectedNumber**. Si newValue es diferente de oldValue, ejecutamos la siguiente lógica:
+
+-  Tras comprobar que tampoco es una cadena vacía, utilizamos el método **filter()** en la matriz $scope.data para filtrar solo los elementos cuyo número coincida con el nuevo valor de **$scope.selectedNumber**. Esto nos da un nuevo conjunto de datos filtrados que coinciden con el número seleccionado.
+
+- Asignamos este conjunto filtrado de datos a la propiedad **$scope.filteredData**, lo que actualiza la vista para mostrar solo los amigos cuyo número coincide con el número seleccionado.
+
+Si **newValue** es igual a ' ' (es decir, si el nuevo valor es una cadena vacía), **$scope.filteredData** seguirá siendo igual a **$scope.data**, ya que se asignó inicialmente fuera del bloque condicional
