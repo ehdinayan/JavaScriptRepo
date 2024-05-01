@@ -568,22 +568,24 @@ Bueno para resolver esto podríamos tener algo como un documento HTML asi (obten
 <script>
 function loadXMLDoc()
 {
-var xmlhttp;
-if (window.XMLHttpRequest)
-{// code for IE7+, Firefox, Chrome, Opera, Safari
-xmlhttp=new XMLHttpRequest();
-}
-else
-{// code for IE6, IE5
-xmlhttp=new ActiveXObject(“Microsoft.XMLHTTP”);
-}
+  var xmlhttp;
+  if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+    xmlhttp=new XMLHttpRequest();
+  }
+  else
+  {// code for IE6, IE5
+    xmlhttp=new ActiveXObject(“Microsoft.XMLHTTP”);
+  }
+
 xmlhttp.onreadystatechange=function()
 {
-if (xmlhttp.readyState==4 && xmlhttp.status==200)
-{
-document.getElementById(“myDiv”).innerHTML=xmlhttp.responseXML;
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+  {
+    document.getElementById(“myDiv”).innerHTML=xmlhttp.responseXML;
+  }
 }
-}
+
 xmlhttp.open(“GET”,”ejemploXML.xml”,true);
 xmlhttp.send();
 }
@@ -888,7 +890,7 @@ Las primeras evoluciones de JavaScript vivían en los navegadores. Pero esto es 
 
 Para utilizar el código JavaScript en el backend, éste necesita ser interpretado y, bueno, ejecutado. Esto es lo que Node.js hace, con el uso de la Máquina Virtual V8 de Google, el mismo entorno de ejecución para JavaScript que el navegador Google Chrome.
 
-**ANGULAR: Principios de funcionamiento y elementos básicos**
+**ANGULARJS: Principios de funcionamiento y elementos básicos**
 
 AngularJS revisa el HTML que puede contener atributos de las etiquetas personalizadas adicionales (de la propia librería), obedece a las directivas de los atributos personalizados, y une los elementos de entrada o salida del documento a un modelo representado por las variables de JavaScript.
 
@@ -1131,3 +1133,75 @@ Dentro de la función de devolución de llamada, comparamos **newValue con oldVa
 - Asignamos este conjunto filtrado de datos a la propiedad **$scope.filteredData**, lo que actualiza la vista para mostrar solo los amigos cuyo número coincide con el número seleccionado.
 
 Si **newValue** es igual a ' ' (es decir, si el nuevo valor es una cadena vacía), **$scope.filteredData** seguirá siendo igual a **$scope.data**, ya que se asignó inicialmente fuera del bloque condicional
+
+**NODEJS: Creación de un servidor HTTP**
+
+Aunque más adelante hablaremos de la introducción de módulos en NodeJS, es necesario abordar un primer módulo imprescindible para la creación de un servidor de HTTP. Este es el módulo http.
+
+Las interfaces HTTP en Node están diseñadas para soportar muchas de las características del protocolo que tradicionalmente han sido difíciles de usar. En particular, los mensajes grandes, seguramente fragmentado. La interfaz se asegura de que las peticiones o respuestas nunca se almacenen completamente en un búfer--se permite al usuario hacer stream de datos. Las cabeceras de los mensajes HTTP se representan por un objeto como este:
+
+`{'content-lenght:'123','content-type':'text/plain','connection':'keep-alive', 'accept':'/'}`
+
+Para soportar el espectro completo de las posibles aplicaciones HTTP, la API HTTP de Node es de muy bajo nivel. Se encarga únicamente de manejar el stream y del parsing del mensaje. Parsea el mensaje en sus cabeceras y body pero no parsea las cabeceras o el body.
+
+*MANIPULACIÓN DE PETICIONES*
+
+Para poder realizar la manipulación de peticiones es necesario instalar el módulo de express en nuestra aplicación. Pero, ¿para qué sirve este módulo y que es lo que nos ofrece?
+
+Express es un módulo de NodeJS que se puede instalar a través de la herramienta npm.
+
+En una definición exacta sería: el framework que se lanza sobre un servidor http de NodeJS para manipular las rutas y dar acceso de un modo sencillo al cliente para acceder al ciclo de vida de la aplicación.
+
+*CREANDO RUTAS*
+
+Las rutas nos permiten direccionar peticiones a los controladores correctos.
+
+Vamos a empezar agregando el código de un controlador para una ruta:
+
+```
+app-get('/', function(request,response)
+{
+    response.send('Hola, Express!');
+});
+```
+Si corremos nuestra app en la consola (parados en directorio de la aplicación) node app.js y vamos a "http://localhost:3000/" en nuestro explorador de preferencia, debemos ver el mensaje "¡Hola, Express!"
+
+*RECIBIENDO PARÁMETROS*
+
+Si queremos recibir algún parámetro en una ruta debemos especificar en el String el nombre del parámetro son ":" adelante:
+
+```
+app-get('/users/:userName', function(request, response)
+{
+  var name = request.params.userName;
+  response.send('¡Hola,' + name + '!');
+});
+```
+Ahora si corremos la app y vamos a "http://localhost:3000/users/oscar" veremos que se despliega el mensaje "¡Hola, Òscar!".
+
+*RECIBIENDO POST*
+
+También podemos recibir requests de tipo Post de la siguiente manera:
+
+```
+app.post('/users', function(request,response)
+{
+  var username = request.body.username;
+  response.send('¡Hola,' + username + '!')
+});
+```
+Antes de correr este código debemos agregar bodyParser fuera del método, porque express no parsea el cuerpo del request por defecto:
+
+`app-use(express.bodyParser());`
+
+Ahora podemos hacerle un post desde cualquier app que nos permita hacerlo. Se puede utilizar una extensión de Chrome llamada Postman, desde ahí le podemos enviar lo siguiente a "http://localhost:3000/users":
+
+![](Media/NODEJS.png)
+
+*USANDO EXPREIONES REGULARES COMO RUTA*
+
+También podemos usar expresiones regulares como rutas, por ejemplo, podríamos usar "/\/users\/(\d*)\/?(edit)?/" como una ruta, especificando así que debe haber un dígito en el medio y que la palabra "edit" es opcional.
+
+![](Media/NODEJS_2.png)
+
+Si corremos la app y vamos a "http://localhost:3000/personal/15" veremos que se despliega el mensaje "Viendo el perfil del empleado #15", y si agregamos "/edit" al final veremos que el mensaje cambia a "Editando el perfil del empleado #15".
