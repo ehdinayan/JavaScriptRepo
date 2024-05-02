@@ -1350,3 +1350,160 @@ Entonces teniendo el código de la solicitud cliente, he iniciado node con el fi
 ![](Media/httpRequest.png)
 
 Segundo caso práctico concluído!
+
+**Uso de EvenEmitter**
+
+Teniendo el siguiente objeto JSON:
+var station = {
+freq: ‘90.16’,
+name: ‘Mi Radio variada’
+};
+
+Use EventEmitter para crear una variable que nos escuche los eventos open, close
+y newListener que nos sacaran por consola cuando hemos encendido, apagado o
+vinculado un nuevo evento a nuestra radio con los datos de nuestro objeto radio
+visto anteriormente.
+
+Debemos ser capaces de emitir esos eventos en este orden:
+
+El evento open : Nada más lanzar nuestra aplicación.
+El evento close: Al cabo de unos cinco segundos.
+
+Aparte, esta aplicación debe estar en dos ficheros, siendo uno el módulo requerido
+para el otro.
+
+Aquí el primer fichero llamado EventEmitter.js, que contendrá el objeto JSON de la radio y el modulo events para manejar los diferentes estados:
+
+```
+// Importar el módulo 'events' de Node.js
+const EventEmitter = require('events');
+
+// Crear una nueva instancia de EventEmitter
+const radioEvents = new EventEmitter();
+
+// Definir el objeto JSON station
+const station = {
+  freq: '90.16',
+  name: 'Mi Radio variada'
+};
+
+// Manejar el evento 'open' (encendido)
+radioEvents.on('open', () => {
+  console.log('La radio está encendida. Estación:', station.name, '| Frecuencia:', station.freq);
+});
+
+// Manejar el evento 'close' (apagado)
+radioEvents.on('close', () => {
+  console.log('La radio está apagada.');
+});
+
+// Manejar el evento 'newListener' (nuevo evento añadido)
+radioEvents.on('newListener', (event, listener) => {
+  console.log('Nuevo evento añadido:', event);
+});
+
+// Exportar el objeto EventEmitter para que esté disponible para otros archivos
+module.exports = radioEvents;
+```
+
+El siguiente paso es crear el archivo principal de la aplicación, donde importaremos el módulo EventEmitter.js y emitiremos los eventos open y close en el orden especificado. Lo he llamado radioApp.js:
+
+```
+// Importar el módulo 'EventEmitter.js'
+const radioEvents = require('./EventEmitter');
+
+// Emitir el evento 'open' cuando se lance la aplicación
+console.log('Iniciando la aplicación...');
+radioEvents.emit('open');
+
+// Emitir el evento 'close' después de cinco segundos
+setTimeout(() => {
+  console.log('Cerrando la aplicación...');
+  radioEvents.emit('close');
+}, 5000);
+```
+
+Vale luego simplemente se trata de estar con un terminal abierto en el mismo directorio donde están ubicados los dos archivos y teclear el comando `node radioApp.js`
+
+Funciona bien. Enseguida aparece el primer mensaje y a los 5 segundos el de apagado:
+
+![](Media/radioApp.png)
+
+**Programa para contar las líneas de un fichero con NodeJS**
+
+Cree un fichero llamado cuentalineas.js que, con código JavaScript
+en NodeJS.
+
+1. Cree un fichero input.txt en el servidor, relleno con los siguientes
+datos:
+
+`Hola caracola \nHola caracola \nHola caracola \nHola caracola`
+
+2. Cuente las líneas de dicho fichero y devuélvalas por consola
+(usamos `\n` para diferenciar el salto de línea dentro del fichero).
+
+3. Copie el contenido de este fichero input.txt a otro que crearemos
+y llamaremos output.txt y borre el fichero input.txt.
+
+Aqui esta la estructura del programa:
+
+```
+const fs = require('fs');
+const { exec } = require('child_process');
+
+// Función para ejecutar 'ls' y mostrar el contenido del directorio
+function mostrarContenidoDirectorio() {
+  exec('ls', (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error al ejecutar 'ls': ${error.message}`);
+      return;
+    }
+    console.log(`Contenido del directorio:\n${stdout}`);
+  });
+}
+
+// Paso 1: Crear el archivo de entrada 'input.txt' con los datos proporcionados
+const datos = 'Hola caracola \nHola caracola \nHola caracola \nHola caracola';
+fs.writeFileSync('input.txt', datos);
+
+console.log('Archivo input.txt creado exitosamente.');
+// Mostrar el contenido del directorio después de crear el archivo input.txt
+mostrarContenidoDirectorio();
+
+// Paso 2: Contar las líneas del archivo de entrada 'input.txt'
+fs.readFile('input.txt', 'utf8', (err, data) => {
+  if (err) {
+    console.error('Error al leer el archivo input.txt:', err);
+    return;
+  }
+
+  const lineas = data.split('\n').length;
+  console.log(`Número de líneas en input.txt: ${lineas}`);
+
+  // Paso 3: Copiar el contenido del archivo de entrada a otro archivo 'output.txt'
+  fs.writeFile('output.txt', data, (err) => {
+    if (err) {
+      console.error('Error al escribir en el archivo output.txt:', err);
+      return;
+    }
+    console.log('Contenido de input.txt copiado exitosamente a output.txt.');
+
+    // Eliminar el archivo de entrada 'input.txt' después de copiar
+    fs.unlink('input.txt', (err) => {
+      if (err) {
+        console.error('Error al eliminar el archivo input.txt:', err);
+        return;
+      }
+      console.log('Archivo input.txt eliminado exitosamente.');
+
+      // Mostrar el contenido del directorio después de eliminar el archivo
+      mostrarContenidoDirectorio();
+    });
+  });
+});
+```
+Sugerí al Chat GPT implementar un método al que llamar para comprobar que los ficheros realmente se están creando y eliminando en los momentos oportunos, de ahí la línea `const { exec } = require('child_process');`, necesaria para crear mostrarContenidoDirectorio().
+
+Y con esto he finalizado este archivo de recopilación del curso con sus casos prácticos. Espero que estén bien y no haya muchos errores que me puedan haber quedado sin darme cuenta o algo así, a veces pasa.
+
+Saludos!
