@@ -1134,7 +1134,7 @@ Dentro de la función de devolución de llamada, comparamos **newValue con oldVa
 
 Si **newValue** es igual a ' ' (es decir, si el nuevo valor es una cadena vacía), **$scope.filteredData** seguirá siendo igual a **$scope.data**, ya que se asignó inicialmente fuera del bloque condicional
 
-**NODEJS: Creación de un servidor HTTP**
+## **NODEJS: Creación de un servidor HTTP**
 
 Aunque más adelante hablaremos de la introducción de módulos en NodeJS, es necesario abordar un primer módulo imprescindible para la creación de un servidor de HTTP. Este es el módulo http.
 
@@ -1144,7 +1144,7 @@ Las interfaces HTTP en Node están diseñadas para soportar muchas de las caract
 
 Para soportar el espectro completo de las posibles aplicaciones HTTP, la API HTTP de Node es de muy bajo nivel. Se encarga únicamente de manejar el stream y del parsing del mensaje. Parsea el mensaje en sus cabeceras y body pero no parsea las cabeceras o el body.
 
-*MANIPULACIÓN DE PETICIONES*
+**MANIPULACIÓN DE PETICIONES**
 
 Para poder realizar la manipulación de peticiones es necesario instalar el módulo de express en nuestra aplicación. Pero, ¿para qué sirve este módulo y que es lo que nos ofrece?
 
@@ -1152,7 +1152,7 @@ Express es un módulo de NodeJS que se puede instalar a través de la herramient
 
 En una definición exacta sería: el framework que se lanza sobre un servidor http de NodeJS para manipular las rutas y dar acceso de un modo sencillo al cliente para acceder al ciclo de vida de la aplicación.
 
-*CREANDO RUTAS*
+**CREANDO RUTAS**
 
 Las rutas nos permiten direccionar peticiones a los controladores correctos.
 
@@ -1166,7 +1166,7 @@ app-get('/', function(request,response)
 ```
 Si corremos nuestra app en la consola (parados en directorio de la aplicación) node app.js y vamos a "http://localhost:3000/" en nuestro explorador de preferencia, debemos ver el mensaje "¡Hola, Express!"
 
-*RECIBIENDO PARÁMETROS*
+**RECIBIENDO PARÁMETROS**
 
 Si queremos recibir algún parámetro en una ruta debemos especificar en el String el nombre del parámetro son ":" adelante:
 
@@ -1179,7 +1179,7 @@ app-get('/users/:userName', function(request, response)
 ```
 Ahora si corremos la app y vamos a "http://localhost:3000/users/oscar" veremos que se despliega el mensaje "¡Hola, Òscar!".
 
-*RECIBIENDO POST*
+**RECIBIENDO POST**
 
 También podemos recibir requests de tipo Post de la siguiente manera:
 
@@ -1198,10 +1198,97 @@ Ahora podemos hacerle un post desde cualquier app que nos permita hacerlo. Se pu
 
 ![](Media/NODEJS.png)
 
-*USANDO EXPREIONES REGULARES COMO RUTA*
+**USANDO EXPRESIONES REGULARES COMO RUTA**
 
 También podemos usar expresiones regulares como rutas, por ejemplo, podríamos usar "/\/users\/(\d*)\/?(edit)?/" como una ruta, especificando así que debe haber un dígito en el medio y que la palabra "edit" es opcional.
 
 ![](Media/NODEJS_2.png)
 
 Si corremos la app y vamos a "http://localhost:3000/personal/15" veremos que se despliega el mensaje "Viendo el perfil del empleado #15", y si agregamos "/edit" al final veremos que el mensaje cambia a "Editando el perfil del empleado #15".
+
+## **NODEJS: Módulos principales**
+
+NodeJS posee varios módulos compilados en binario. Los módulos básicos son definidos en el código fuente de NodeJS en la carpeta lib.
+
+A continuación, vamos a pasar a reseñar algunos de los módulos más importantes que podemos agregar a nuestras aplicaciones de los centenares y centenares que hay. Como nota, se debe comentar, que podemos construirnos nuestros propios módulos dentro de nuestra aplicación, con el objetivo de modularizar nuestro código.
+
+**Console**
+
+Marcado en el API como STDIO, ofrece el objeto console para imprimir mensajes por la salida estándar: stdout y stderr. Los mensajes van desde los habituales info o log hasta trazar la pila de errores con trace.
+
+**Timers**
+
+Ofrece las funciones globales para el manejo de contadores que realizarán la acción especificada pasado el tiempo que se les programa. Debido a la cómo está diseñado Node, relacionado con el bucle de eventos del que se hablará en un futuro, no se puede garantizar que el tiempo de ejecución de dicha acción sea exactamente el marcado, sino uno aproximado cercano a él, cuando el bucle esté en disposición de hacerlo.
+
+**Module**
+
+Proporciona el sistema de módulos según impone CommonJS. Cada módulo que se carga o el propio programa, está modelado según module, que se verá como una variable, module, dentro del mismo módulo. Con ella se tienen disponibles tanto el mecanismo de carga require() como aquellas funciones y variables que exporta, en module.exports, que destacan entre otras menos corrientes que están a un nivel informativo: módulo que ha cargado el actual (module.parent), módulos que carga el actual (module.children)...
+
+**Buffer**
+
+Es el objeto por defecto en Node para el manejo de datos binarios. Sin embargo, la introducción en JavaScript de los typedArrays desplazará a los Buffers como manera de tratar esta clase de datos.
+
+## *Casos Prácticos NODEJS*
+
+**Servidores HTTP con NODE**
+
+1- Cree un servidor http con Node que metiendo en la ruta del
+navegador cualquier nombre del fichero concatenado con
+nuestro dominio y puerto lo obtenga del servidor y lo muestre
+en el navegador (preferiblemente un fichero HTML para que sea
+interpretado, aunque podría ser cualquier tipo de fichero).
+
+Vale he descargado e instalado Node.js y npm, después lo he ejecutado desde el terminal con el siguiente archivo:
+
+```
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+
+const server = http.createServer((req, res) => {
+    // Obtiene la ruta del archivo solicitado
+    const filePath = path.join(__dirname, req.url);
+
+    // Determina la extensión del archivo solicitado
+    const extension = path.extname(filePath);
+
+    // Determina la codificación de caracteres adecuada según la extensión del archivo
+    let charset = 'utf-8';
+    switch (extension) {
+        case '.html':
+        case '.css':
+        case '.js':
+            charset = 'utf-8';
+            break;
+        // Agrega más casos según sea necesario para otras extensiones de archivo
+    }
+
+    // Verifica si se solicita el nuevo archivo
+    if (req.url === '/server_2.js') {
+        console.log('Solicitud para /server_2.js detectada');
+        res.writeHead(200, { 'Content-Type': `text/plain; charset=${charset}` });
+        res.end('¡Hola, Universo!');
+        return; // Evita continuar con el flujo del código
+    }
+
+    // Lee el archivo solicitado
+    fs.readFile(filePath, charset, (err, data) => {
+        if (err) {
+            // Si ocurre un error al leer el archivo, envía una respuesta de error y muestra el error en la consola
+            console.error('Error al leer el archivo:', err);
+            res.writeHead(404, { 'Content-Type': 'text/plain' });
+            res.end('404 - Archivo no encontrado');
+        } else {
+            // Si se lee el archivo correctamente, envía el contenido con la codificación de caracteres adecuada
+            res.writeHead(200, { 'Content-Type': `text/plain; charset=${charset}` });
+            res.end(data);
+        }
+    });
+});
+
+const PORT = 3000;
+server.listen(PORT, () => {
+    console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
+});
+```
+Después he creado un fichero de texto llamado newText.txt con contenido aleatorio y lo he ubicado en el mismo directorio. Luego desde el navegador he comprobado el acceso en la url local localhost:3000/newText.txt. El texto del fichero se ha visualizado bien así que doy por completado el primer práctico.
