@@ -1260,7 +1260,7 @@ const server = http.createServer((req, res) => {
         case '.js':
             charset = 'utf-8';
             break;
-        // Agrega más casos según sea necesario para otras extensiones de archivo
+        // Agregar más casos según sea necesario para otras extensiones de archivo
     }
 
     // Verifica si se solicita el nuevo archivo
@@ -1292,3 +1292,61 @@ server.listen(PORT, () => {
 });
 ```
 Después he creado un fichero de texto llamado newText.txt con contenido aleatorio y lo he ubicado en el mismo directorio. Luego desde el navegador he comprobado el acceso en la url local localhost:3000/newText.txt. El texto del fichero se ha visualizado bien así que doy por completado el primer práctico.
+
+2- Cree ahora un cliente http de Node para nuestro servidor anterior y que nos devuelva por consola el fichero que queremos obtener
+
+Vale pues la petición cliente tiene el siguiente código en mi prueba:
+
+```
+const http = require('http');
+
+// Opciones de la solicitud HTTP
+const options = {
+  hostname: 'localhost', // Cambiar esto si el servidor está en un host externo
+  port: 3000, // Cambiar al puerto en el que está escuchando tu servidor
+  path: '/newText.txt', // Cambia esto al nombre del archivo que deseas obtener
+  method: 'GET' // Método de la solicitud HTTP (en este caso, es GET)
+};
+
+// Realizar la solicitud HTTP al servidor
+const req = http.request(options, (res) => {
+  // Capturar el contenido del archivo devuelto por el servidor
+  let data = '';
+
+  // Manejar los datos recibidos desde el servidor
+  res.on('data', (chunk) => {
+    data += chunk;
+  });
+
+  // Manejar el final de la respuesta del servidor
+  res.on('end', () => {
+    // Mostrar el contenido del archivo por consola
+    console.log('Contenido del archivo recibido:');
+    console.log(data);
+  });
+});
+
+// Manejar errores de la solicitud HTTP
+req.on('error', (error) => {
+  console.error('Error al realizar la solicitud HTTP:', error);
+});
+
+// Enviar la solicitud HTTP al servidor
+req.end();
+```
+
+La función de manejo de datos recibidos por el servidor es la que me sonaba un poco más a chino, así que he pedido unas aclaraciones:
+
+*En Node.js, cuando realizas una solicitud HTTP, el objeto res (abreviatura de "response" o respuesta en español) representa la respuesta del servidor. Este objeto tiene un evento llamado 'data', que se activa cada vez que se recibe un fragmento de datos en la respuesta del servidor.*
+
+*La función que pasas como argumento a res.on('data', ...) es un callback que se ejecutará cada vez que se reciba un fragmento de datos en la respuesta. En este caso, la función toma un parámetro llamado chunk, que representa el fragmento de datos recibido en ese momento.*
+
+*Dentro de esta función, data += chunk; concatena el fragmento de datos recibido (chunk) al final de la cadena de datos data. Esto se hace así porque los datos pueden llegar en múltiples fragmentos y necesitamos concatenarlos para obtener el contenido completo de la respuesta.*
+
+*Por lo tanto, cada vez que se recibe un fragmento de datos del servidor, se agrega al final de la cadena data. Al final de la solicitud, data contendrá el contenido completo de la respuesta del servidor.*
+
+Entonces teniendo el código de la solicitud cliente, he iniciado node con el fichero servidor anterior y después, desde otro terminal la solicitud http para el fichero newText.txt:
+
+![](Media/httpRequest.png)
+
+Segundo caso práctico concluído!
