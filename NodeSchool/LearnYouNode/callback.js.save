@@ -1,0 +1,36 @@
+
+//'use strict'
+const fs = require('fs');
+
+// Función para contar el número de saltos de línea en el archivo
+function contarSaltosDeLinea(, callback) {
+    fs.readFile(rutaArchivo, 'utf8', (error, data) => {
+        if (error) {
+            callback(error);
+            return;
+        }
+
+        // Contar el número de saltos de línea ('\n')
+        const numSaltosDeLinea = data.split('\n').length - 1;
+        callback(null, numSaltosDeLinea);
+    });
+}
+
+// Ruta del archivo pasada como argumento al programa
+const rutaArchivo = process.argv[2];
+/*
+// Verificar si se proporcionó una ruta de archivo como argumento
+if (!rutaArchivo) {
+    console.error('Por favor, proporciona la ruta al archivo como argumento.');
+    process.exit(1);
+}
+
+// Llamar a la función para contar los saltos de línea en el archivo
+contarSaltosDeLinea(rutaArchivo, (error, numSaltosDeLinea) => {
+    if (error) {
+        console.error('Ocurrió un error al leer el archivo:', error);
+        return;
+    }
+
+    console.log(`${numSaltosDeLinea}`);
+});
