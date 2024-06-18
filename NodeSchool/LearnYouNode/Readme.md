@@ -59,4 +59,6 @@ Este ejercicio era muy fácil, asi que no hay nada que añadir.
 
   Este método devuelve un buffer si no se convierte en otra cosa explícitamente. El archivo **i-o.js** contiene dos versiones: La solución oficial comentada y la solución con ayuda de Chat GPT, que ha añadido el tratamiento de errores tanto en la secuencia inicial del paso de argumentos como en la final de realizar las adaptaciones necesarias para detectar el número de saltos de línea.
 
+  [documentación módulo fs](file:///usr/local/lib/node_modules/learnyounode/docs-nodejs/fs.html#fs_fs_readfilesync_path_options)
+
   *Archivo:* i-o.js
