@@ -46,4 +46,17 @@ Este ejercicio era muy fácil, asi que no hay nada que añadir.
 
   Como el ejercicio pide que se imprima la suma de todos los números que se pasen como argumentos, no podemos librarnos de una variable que acumule el valor de la suma y un bucle que haga una iteración por los mismos. Hay un salto de dificultad bastante importante ya desde el primer ejercicio al segundo como se puede ver.
 
-  **Archivo:** global-process.js 
+  **Archivo:** global-process.js
+
+  ## ¡MI PRIMER I/O! (Ejercicio 3 de 13)  
+
+  *Escribe un programa que, usando una llamada síncrona al sistema de
+  archivos, lea un archivo recibido por argumento e imprima a consola la cantidad de saltos de línea ('\n') que contiene. Similar a ejecutar cat file | wc -l.*  
+
+  *El programa recibirá la ruta al archivo como único argumento.*
+
+  Para este ejercicio necesitaremos incorporar el módulo [fs](file:///usr/local/lib/node_modules/learnyounode/docs-nodejs/fs.html) de Node (file system) y usar el método [fs.readFileSync()](file:///usr/local/lib/node_modules/learnyounode/docs-nodejs/fs.html#fs_fs_readfilesync_path_options).
+
+  Este método devuelve un buffer si no se convierte en otra cosa explícitamente. El archivo **i-o.js** contiene dos versiones: La solución oficial comentada y la solución con ayuda de Chat GPT, que ha añadido el tratamiento de errores tanto en la secuencia inicial del paso de argumentos como en la final de realizar las adaptaciones necesarias para detectar el número de saltos de línea.
+
+  *Archivo:* i-o.js
