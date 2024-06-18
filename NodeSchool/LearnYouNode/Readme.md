@@ -55,10 +55,12 @@ Este ejercicio era muy fácil, asi que no hay nada que añadir.
 
   *El programa recibirá la ruta al archivo como único argumento.*
 
-  Para este ejercicio necesitaremos incorporar el módulo [fs](file:///usr/local/lib/node_modules/learnyounode/docs-nodejs/fs.html) de Node (file system) y usar el método [fs.readFileSync()](file:///usr/local/lib/node_modules/learnyounode/docs-nodejs/fs.html#fs_fs_readfilesync_path_options).
+  Para este ejercicio necesitaremos incorporar el módulo fs de Node (file system) y usar el método fs.readFileSync().
 
-  Este método devuelve un buffer si no se convierte en otra cosa explícitamente. El archivo **i-o.js** contiene dos versiones: La solución oficial comentada y la solución con ayuda de Chat GPT, que ha añadido el tratamiento de errores tanto en la secuencia inicial del paso de argumentos como en la final de realizar las adaptaciones necesarias para detectar el número de saltos de línea.
+  Este método devuelve un buffer de memoria por defecto.
 
-  documentación módulo fs: file:///usr/local/lib/node_modules/learnyounode/docs-nodejs/fs.html
+  El archivo **i-o.js** contiene dos versiones: La solución oficial comentada y la solución con ayuda de Chat GPT, que ha añadido el tratamiento de errores tanto en la secuencia inicial del paso de argumentos como en la final de realizar las adaptaciones necesarias para detectar el número de saltos de línea.
+
+  **documentación módulo fs:** file:///usr/local/lib/node_modules/learnyounode/docs-nodejs/fs.html#fs_fs_readfilesync_path_options
 
   *Archivo:* i-o.js
