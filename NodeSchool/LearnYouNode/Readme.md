@@ -64,3 +64,43 @@ Este ejercicio era muy fácil, asi que no hay nada que añadir.
   **documentación módulo fs:** file:///usr/local/lib/node_modules/learnyounode/docs-nodejs/fs.html#fs_fs_readfilesync_path_options
 
   *Archivo:* i-o.js
+
+  ## ¡MI PRIMER I/O ASINCRÓNICO! (Ejercicio 4 de 13)  
+
+  *Escribe un programa que use operación de sistema de archivos asíncrona para leer un archivo e imprimir en consola el número de saltos de línea ('\n') que contiene. Similar a  ejecutar* `cat file | wc -l.`  
+
+  *El programa recibirá la ruta al archivo como único argumento*
+
+  *La resolución es similar al problema anterior pero esta vez usaremos the Node.js way: asíncronicamente (async).*  
+
+  *Vamos a sustituir fs.readFileSync() por fs.readFile() y en lugar de esperar que retorne un valor, vamos a tener que procesar el resultado con una función de callback que se invoca al terminar la lectura del archivo.*  
+
+  *La forma habitual de usar callbacks en Node.js es con la siguiente firma:*
+
+  ```
+  function callback (error, data) { /* ... */ }
+  ```
+
+  *Puedes validar si ocurrió un error controlando si el primer parámetro es nulo. Si no hay errores, 'data' será un objeto Buffer de Node.js. Al igual que pasa con readFileSync(), puedes pasar 'utf8' como segundo parámetro y luego el callback como tercero de modo de que data sea un String y no un Buffer.*
+
+  Vamos a volver a usar el módulo ('fs') y a usar una función como argumento para el método fs.readFile(). También usaremos el array de Node.JS para obtener entradas de la línea de comandos `process.argv[2]`
+
+  El procedimiento para crear este programa sería
+
+  1 - Importar módulos necesarios
+
+  2 - Definir variables globales
+
+  3 - Usar método fs.readFile()
+
+  4 - Pasar argumentos correctamente
+
+  5 - Tratamiento de errores (1er parámetro callback)
+
+  6 - Definición y uso de variables locales que nos permitan realizar la tarea requerida
+
+  7 - Mostrar el resultado
+
+  El archivo tiene unas líneas comentadas de solución alternativa, he estado probando las dos. Me gusta más pasar los 3 parámetros al método fs.readFile() y ahorrarme el toString() al final.
+
+  *Archivo:* callback.js 
