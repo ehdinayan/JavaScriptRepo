@@ -103,4 +103,40 @@ Este ejercicio era muy fácil, asi que no hay nada que añadir.
 
   El archivo tiene unas líneas comentadas de solución alternativa, he estado probando las dos. Me gusta más pasar los 3 parámetros al método fs.readFile() y ahorrarme el toString() al final.
 
-  *Archivo:* callback.js 
+  *Archivo:* callback.js
+
+## LS FILTRADO (Ejercicio 5 de 13)
+
+*Crea un programa que dado un directorio imprima una lista de archivos filtrados por la extensión. El primer argumento será la ruta al directorio (ej: '/path/dir/') y el segundo la extensión a filtrar, por ejemplo si recibes 'txt' deberás filtrar todos los archivos que terminen en .txt.*  
+
+*La lista de archivos a imprimir en consola debe hacerse un archivo por línea y debes utilizar Async I/O.*
+
+## PISTAS  
+
+*La función `fs.readdir()` recibe como parámetros: una ruta(path) y un callback. La firma del callback es:*
+
+`function callback (error, lista) { /* ... */ }`
+
+*La lista es un arreglo de nombres de archivos de tipo String.*
+
+Proceso para la resolución del problema:
+
+1- Importar módulos necesarios ('fs' y 'path')
+
+2- Definir variables globales, ej: `const ext = '.' + process.argv[3]` para la extensión
+
+3- Uso del método `fs.readdir()`, recibe un directorio y un callback como parámetros
+
+4- Tratamiento de errores (1er parámetro callback)
+
+5- Identificar las extensiones
+
+6- El módulo 'Path' incluye métodos de filtrado de archivos. Identificar las extensiones de ficheros en el directorio que coinciden con las pasadas como argumento.
+
+7- Sacar el resultado por consola
+
+El ejercicio está comentado e el archivo del programa también. Incluye una versión implementada por Chat gpt 4.0, más exhaustiva pero algo engorrosa y la versión oficial de NodeSchool, que es la que he comentado y es mucho más directa.
+
+**documentación módulo path:** file:///usr/local/lib/node_modules/learnyounode/docs-nodejs/path.html
+
+*Archivo:* filter-files.js

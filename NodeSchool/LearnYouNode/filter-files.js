@@ -25,12 +25,20 @@ fs.readdir(dir, function callback(error, files) {
 
     fs.readdir(folder, function (err, files) {
       if (err) return console.error(err)
+
+      //comparar extension de los ficheros en el directorio
+      //con los recibidos como argumento:
+
       files.forEach(function (file) {
+
+        //metodo del modulo Path que toma en consideración
+        //como extensión lo contenido a partir del primer punto en el nombre
+        //del archivo:
+
         if (path.extname(file) === ext) {
           console.log(file)
         }
       })
     })
 */
-
 
