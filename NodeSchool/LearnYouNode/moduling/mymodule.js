@@ -17,19 +17,22 @@ module.exports = function (dir, ext, callback) {
 
 /*Versión oficial:
 
-
 'use strict'
-    const filterFn = require('./solution_filter.js')
-    const dir = process.argv[2]
-    const filterStr = process.argv[3]
+    const fs = require('fs')
+    const path = require('path')
 
-    filterFn(dir, filterStr, function (err, list) {
-      if (err) {
-        return console.error('There was an error:', err)
-      }
+    module.exports = function (dir, filterStr, callback) {
+      fs.readdir(dir, function (err, list) {
+        if (err) {
+          return callback(err)
+        }
 
-      list.forEach(function (file) {
-        console.log(file)
+        list = list.filter(function (file) {
+          return path.extname(file) === '.' + filterStr
+        })
+
+        callback(null, list)
       })
-    })
+    }
 */
+

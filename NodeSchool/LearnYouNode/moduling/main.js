@@ -20,22 +20,20 @@ mymodule(dir, ext, function(error, files){
 
 /*Versión oficial:
 
+
 'use strict'
-    const fs = require('fs')
-    const path = require('path')
+    const filterFn = require('./solution_filter.js')
+    const dir = process.argv[2]
+    const filterStr = process.argv[3]
 
-    module.exports = function (dir, filterStr, callback) {
-      fs.readdir(dir, function (err, list) {
-        if (err) {
-          return callback(err)
-        }
+    filterFn(dir, filterStr, function (err, list) {
+      if (err) {
+        return console.error('There was an error:', err)
+      }
 
-        list = list.filter(function (file) {
-          return path.extname(file) === '.' + filterStr
-        })
-
-        callback(null, list)
+      list.forEach(function (file) {
+        console.log(file)
       })
-    }
+    })
 */
 
