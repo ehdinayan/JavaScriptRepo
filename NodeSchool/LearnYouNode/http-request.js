@@ -1,45 +1,20 @@
 //Version GPT
 
-const http = require('http'); // Importar el módulo http
+'use strict'
+const http = require('http')
 
-// Leer la URL desde los argumentos de la línea de comandos
-const url = process.argv[2];
+http.get(process.argv[2], function (response) {
+  response.setEncoding('utf8')
 
-// Verificar que se haya proporcionado una URL
-if (!url) {
-  console.error('Por favor, proporciona una URL como argumento.');
-  process.exit(1); // Terminar el programa con error
-}
+  response.on('data', console.log)      // Maneja los fragmentos de datos recibidos
+  response.on('error', console.error)   // Maneja errores durante la recepción de datos
 
-// Realizar la solicitud HTTP GET
-http.get(url, (response) => {
-  // Configurar la codificación para que los datos sean strings
-  response.setEncoding('utf8');
-
-  // Manejar cada evento "data"
-  response.on('data', (chunk) => {
-    console.log(chunk); // Imprimir el chunk de datos
-  });
-
-  /* Manejar el evento "end" cuando se completa la respuesta
+  // Maneja el final de la recepción de datos
   response.on('end', () => {
-    console.log('Respuesta completada.'); Esta frase final da error al 
-    compararlo con la respuesta oficial
-  });*/
+    console.log('No more data in response.')
+  })
+}).on('error', console.error)            // Maneja errores durante la solicitud
 
-  response.on('end', () => {
-   return;
-  });
-
-  // Manejar los errores
-  response.on('error', (error) => {
-    console.error(`Error en la respuesta: ${error.message}`);
-  });
-
-}).on('error', (error) => {
-  // Manejar errores en la solicitud
-  console.error(`Error en la solicitud: ${error.message}`);
-});
 
 /*Version oficial
 
@@ -52,5 +27,5 @@ http.get(url, (response) => {
       response.on('error', console.error)
     }).on('error', console.error)
 
-No parece que use el evento 'end' en ningún momento
+
 */

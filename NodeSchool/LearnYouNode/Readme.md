@@ -219,3 +219,53 @@ Por último, se imprime el resultado por consola.
 
 
 *Archivos:* Contenidos en el directorio **moduling**
+
+## CLIENTE HTTP (Ejercicio 7 de 13)
+
+*Escribe un programa que reciba como argumento una URL y realice una petición HTTP GET a la misma. Luego, deberá imprimir por consola el  
+contenido de cada evento "data" de la petición, uno por línea.*
+
+## PISTAS
+
+*Para este ejercicio necesitas el módulo http incluido en Node. La documentación del módulo http puede verse en:*  
+
+file:///usr/local/lib/node_modules/learnyounode/docs-nodejs/http.html
+
+*El método http.get() es versión simplificada para peticiones GET y conviene que la uses para la solución. El primer parámetro de http.get() es la URL y el segundo es un callback. A diferencia de otros callbacks la firma es:*
+
+` function callback (response) { /* ... */ } `
+
+*Siendo response un objeto Stream de Node. En Node los Streams emiten eventos, a los cuales puedes suscribir callbacks. Para este ejercicio sólo nos interesan los eventos: "data", "error" y "end". Para escuchar un evento debes hacer:*
+
+`response.on('data', function (data) { /* ... */ })`
+
+*El evento "data" se dispara cuando un chunk, conjunto de datos, está disponible para procesarse. El tamaño del chunk depende de la  
+implementación.*
+
+*Nota: Por omisión, los objetos 'data' recibidos son Buffers de Node que deben ser convertidos a Strings para luego ser escritos en consola. Sin embargo, el objeto response que obtienes de http.get() tiene un método setEncoding() que permite definir cómo se leen los bytes obtenidos. Si lo llamas con parámetro "utf8" recibirás Strings en los eventos emitidos.*
+
+Bueno como siempre, la primera parte consiste en implementar el módulo necesario, en este caso será http:
+
+`const http = require ('http')`
+
+Para tomar la url como argumento de la línea de comandos, volvemos a usar process.argv[2]
+
+`http.get(process.argv[2], function (response) {`
+
+Lo siguiente será establecer la codificación de los datos recibidos, ir escribiéndolos en consola conforme se reciben, así como mostrar un mensaje de error en caso que se produzca alguno en la transmisión. Esto lo hacemos con:
+
+`response.setEncoding('utf8')`, `response.on('data', console.log)` y `response.on('error', console.error)`
+
+Luego, en la versión que realicé con ayuda del chat GPT, incluímos un controlador para notar el final de la operación, aunque da error al corregirlo ya que aparece una línea que no está en el resultado de la solución oficial
+```
+response.on('end', () => {
+  console.log('No more data in response')
+  })`
+```
+Finalmente la gestión de errores de solicitud, ya fuera del ámbito del callback:
+
+`}).on('error', console.error)`
+
+En el archivo como siempre se incluyen las dos versiones, pero la única diferencia entre ambas es la que acabo de mencionar.
+
+*Archivo:* http-request.js
