@@ -379,7 +379,7 @@ for (let i = 0; i < 3; i++) {
 
 Aquí definimos un bucle que lo que hace es ejecutar la función hhtpGet() pasándole como argumento un índice que va de 0 a 2
 
-¿Como es la función hhtGet()?
+¿Como es la función httpGet()?
 
 ```
 function httpGet (index) {
@@ -402,7 +402,8 @@ function httpGet (index) {
           /*Parte muy importante porque consigue gran parte de lo
            que pide el ejercicio :
            Convierte los datos recibidos en una cadena de texto y los almacena en el arreglo results en la posición
-           correspondiente al índice. Luego aumenta el contador para saber que la siguiente respuesta corresponderá al siguiente indice*/
+           correspondiente al índice. Luego aumenta el contador para saber que la siguiente respuesta corresponderá
+           al siguiente indice*/
 
           if (count === 3) {
             printResults()
