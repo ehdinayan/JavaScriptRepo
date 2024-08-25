@@ -335,3 +335,85 @@ En el archivo como siempre se incluyen las dos versiones, pero la única diferen
 En esta ocasión el archivo incluye las tres versiones: la que probé por mi cuenta, la del chat GPT y la versión oficial.
 
 *Archivo:* http-collection.js
+
+## MALABARES CON ASINCRONISMO (Ejercicio 9 de 13)
+
+*Este ejercicio es similar al anterior puesto que debes usar http.get(). Sin embargo, esta vez tu programa recibirá tres URLs como argumentos. Tu programa deberá imprimir el contenido de cada una de las URLs en consola en el mismo orden que fueron recibidos los argumentos. No deberás imprimir el largo, solo el contenido como String, pero debes respetar el orden de llegada de los argumentos.*
+
+## PISTAS
+
+*Como las llamadas a las URL son asíncronas, es probable que no recibas las respuestas en orden, por lo que no se deben imprimir las respuestas a medida que llegan.*
+
+*Habrá que encolar los resultados y mantener un contador de cuantas peticiones han sido recibidas de modo que al llegar al final puedas imprimir los resultados*
+
+*Se debe realizar el ejercicio sin usar `async` https://www.npmjs.com/package/async ni tampoco `run-parallel` https://www.npmjs.com/package/run-parallel*
+
+Como siempre, es recomendable desmenuzar un programa en tareas más pequeñas para obtener el resultado completo. En este caso, un análisis de lo que necesitamos podría ser:
+
+- Parsear argumentos de la línea de comandos
+
+- Inicializar una estructura de datos para almacenar el contenido de las respuestas y el orden de llegada
+
+- Inicializar un contador para contabilizar el núm de respuestas recibidas
+
+- Realizar la solicitud y gestionar posibles errores en las respuestas   
+
+- Acumular respuestas para recibirlas en el orden establecido.
+
+Antes del primer paso, importar como siempre los módulos necesarios y definir variables:
+
+```
+'use strict';
+const http = require('http');
+const bl = require('bl');
+const results = [] //Almacenar respuestas
+let count = 0; // Inicializar contador de respuestas recibidas
+```
+Una de las cosas que me confunde al programar es que a menudo las cosas se escriben en el orden contrario al que se ejecutan. Yo prefiero tener las estructuras y funciones definidas abajo y ejecutar la llamada arriba, porque me hace mucho más sencillo comprender todo el flujo de ejecuciones que se llevan a cabo simplemente leyendo de arriba a bajo, como me resulta natural. Así que aunque la versión oficial lo hace al revés, yo aquí voy a dar esta explicación:
+
+```
+for (let i = 0; i < 3; i++) {
+      httpGet(i)
+    }
+```
+
+Aquí definimos un bucle que lo que hace es ejecutar la función hhtpGet() pasándole como argumento un índice que va de 0 a 2
+
+¿Como es la función hhtGet()?
+
+```
+function httpGet (index) {
+      // Se ejecutará primero con el argumento de 0 y por último con el de 2
+
+      http.get(process.argv[2 + index], function (response) {
+        //process.argv[2+index] será process.argv[2] en la 1º pasada
+        //o sea, la 1º url. Luego vendrá la 2º y por último la 3º
+
+        response.pipe(bl(function (err, data) {
+          //El callback de httpGet almacena el contenido recibido gracias al módulo bl
+
+          if (err) {
+            //El callback de bl es ejecutado y se gestionan errores
+            return console.error(err)
+          }
+
+          results[index] = data.toString()
+          count++
+          /*Parte muy importante porque consigue gran parte de lo
+           que pide el ejercicio :
+           Convierte los datos recibidos en una cadena de texto y los almacena en el arreglo results en la posición
+           correspondiente al índice. Luego aumenta el contador para saber que la siguiente respuesta corresponderá al siguiente indice*/
+
+          if (count === 3) {
+            printResults()
+            //Cuando el contador es igual a 3 (3 urls), se imprimen
+            //los resultados en el orden en que se recibieron
+          }
+        }))
+      })
+    }
+```
+
+En esta ocasión el código del chat GPT resulta un poco más confuso que la solución oficial para mi, igualmente están las dos en el archivo como de costumbre.
+
+*Archivo:* http-async.js
