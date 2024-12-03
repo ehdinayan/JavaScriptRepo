@@ -421,27 +421,25 @@ En esta ocasión el código del chat GPT resulta un poco más confuso que la sol
 
 ## SERVIDOR DE TIEMPO (Ejercicio 10 de 13)
 
-El servidor debe escuchar conexiones TCP en el puerto indicado por el  
-primer argumento del programa. Para cada conexión debes escribir la fecha  
-actual y la hora en formato 24hs del siguiente modo:
+*El servidor debe escuchar conexiones TCP en el puerto indicado por el primer argumento del programa. Para cada conexión debes escribir la fecha actual y la hora en formato 24hs del siguiente modo:*
 
-"AAAA-MM-DD hh:mm"
+*"AAAA-MM-DD hh:mm"*
 
-seguido por un carácter newline('\n'). Tanto el mes, el día como la hora y minuto deben tener un 0 para ocupar 2 espacios, por ejemplo:
+*seguido por un carácter newline('\n'). Tanto el mes, el día como la hora y minuto deben tener un 0 para ocupar 2 espacios, por ejemplo:*
 
-"2013-07-06 17:42"
+*"2013-07-06 17:42"*
 
 ## PISTAS  
 
-Para este ejercicio crearemos un servidor TCP en lugar de usar el módulo HTTP usaremos el módulo net del núcleo de Node que tiene funcionalidades de red.
+*Para este ejercicio crearemos un servidor TCP en lugar de usar el módulo HTTP usaremos el módulo net del núcleo de Node que tiene funcionalidades de red.*
 
-El módulo net tiene un método net.createServer() que recibe un callback. A diferencia de otros callbacks en Node, el callback createServer() se llama una vez por cada conexión entrante. La firma es la siguiente:
+*El módulo net tiene un método net.createServer() que recibe un callback. A diferencia de otros callbacks en Node, el callback createServer() se llama una vez por cada conexión entrante. La firma es la siguiente:*
 
 `function callback (socket) { /* ... */ }`
 
-net.createServer() devuelve una variable instancia de server. Para iniciar la escucha del servicio hay que llamar a server.listen(portNumber).
+*net.createServer() devuelve una variable instancia de server. Para iniciar la escucha del servicio hay que llamar a server.listen(portNumber).*
 
-Un ejemplo de un servidor Node típico es como sigue:
+*Un ejemplo de un servidor Node típico es como sigue:*
 
 ```
 const net = require('net')  
@@ -450,18 +448,19 @@ const net = require('net')
      })  
      server.listen(8000)
 ```
-Recuerda usar el puerto recibido por argumento.  
+*Recuerda usar el puerto recibido por argumento.*  
 
-El objeto socket contiene información sobre la conexión y es un Stream duplex, es decir que se puede escribir y leer a la vez.
+*El objeto socket contiene información sobre la conexión y es un Stream duplex, es decir que se puede escribir y leer a la vez.*
 
-Puedes usar socket.write(data) para escribir en el socket y luego  
-socket.end() para cerrar el socket. Alternativamente, el método end() puede recibir un objeto de datos socket.end(data).
+*Puedes usar*
+`socket.write(data)` *para escribir en el socket y luego*  
+`socket.end()` *para cerrar el socket. Alternativamente, el método* `end()` *puede recibir un objeto de datos* `socket.end(data)`
 
-La documentación del módulo net puede verse en:
+*La documentación del módulo net puede verse en:*
 
 file:///usr/local/lib/node_modules/learnyounode/docs-nodejs/net.html
 
-Para calcular la fecha puedes usar new Date() y luego llamar a algunos métodos específicos:
+*Para calcular la fecha puedes usar new Date() y luego llamar a algunos métodos específicos:*
 
 ```
 date.getFullYear()  
@@ -470,6 +469,53 @@ date.getFullYear()
      date.getHours()  
      date.getMinutes()
 ```
-Otra opción más intrépida es usar el paquete strftime disponible en npm. La función strftime(formato, fecha) recibe un formato de fecha similar al date de UNIX. Más información de strftime [aqui](https://github.com/samsonjs/strftime)
+*Otra opción más intrépida es usar el paquete strftime disponible en npm. La función strftime(formato, fecha) recibe un formato de fecha similar al date de UNIX. Más información de strftime [aqui](https://github.com/samsonjs/strftime)*
 
- 
+Bueno para este caso inicialmente podríamos empezar por activar el modo estricto con `use strict` y luego importando el módulo **net** por ejemplo con `const net = require('net')`
+
+con esto ya podemos crear un servidor TCP:
+
+```
+'use strict'
+const net = require('net)
+
+```
+
+Ahora hay que asegurarse de que cada dígito de la fecha empezará por cero cuando el múm sea inferior a 10. Para ello se implementa la función zeroFill:
+
+```
+function zeroFill(i){
+  return (i < 10 ? '0' : '') + i
+}
+```
+
+Lo siguiente será implementar la manera de obtener la fecha y hora en el formato deseado, aquí está la función en cuestión que se encargará:
+
+```
+function now() {
+  const d = new Date(); // Obtenemos una instancia del objeto manipulable Date gracias a usar new
+
+  return d.getFullYear() + '-' + //Obtenemos el año actual seguido de guión
+
+    zeroFill(d.getMonth() + 1) + '-' + //Obtenemos el mes sumándole uno para que Enero no sea 0, sino 1,
+                                       //y usamos zeroFill para añadir el 0 delante si el mes es menor a 10
+
+    zeroFill(d.getDate()) + ' ' + //Lo mismo con el dia y añadimos espacio
+    zeroFill(d.getHours()) + ':' + //Lo mismo con la hora y añadimos ":"
+    zeroFill(d.getMinutes()); //Idem con los minutos
+}
+```  
+
+La función now se vale a su vez de la función zeroFill para ir formateando adecuadamente los resultados arrojados por los métodos del objeto new Date para obtener mes, hora, dia y minutos de la fecha actual en elformato requerido.
+
+Lo que resta es crear un servidor TCP utilizando el método *createServer* del módulo **net.** Este método toma una función de devolución de llamada que se ejecuta cada vez que se establece una nueva conexión con el servidor. Dentro de esta función de devolución de llamada, el servidor envía la fecha y hora actual al cliente que se conecta utilizando el método end del objeto socket, ya que lo que hace es ejecutar la función **now** que se acaba de explicar.
+
+Finalmente se activaría el servidor para escuchar el puerto especificado en la línea de comandos cont
+
+`server.listen(Number(process.argv[2]))`
+
+Para no ser muy redundante el script se encuentra en
+
+*Archivo:* tcp-server.js
+
+En esta ocasión he dejado sólo la versión oficial que es la que se ha explicado en este enunciado.
