@@ -519,3 +519,95 @@ Para no ser muy redundante el script se encuentra en
 *Archivo:* tcp-server.js
 
 En esta ocasión he dejado sólo la versión oficial que es la que se ha explicado en este enunciado.
+
+## SERVIDOR DE ARCHIVOS HTTP (EJERCICIO 11 DE 13)
+
+*Escribe un servidor HTTP que sirva un mismo archivo de texto para todas las peticiones que reciba. El servidor deberá escuchar en un puerto cuyo número será el primer argumento del programa. Como segundo argumento recibirá la ruta a la ubicación del archivo. Debes usar fs.createReadStream() para servir como stream los contenidos del archivo en la respuesta del servicio.*
+
+## PISTAS
+
+*En este ejercicio debes crear un servidor HTTP en lugar de un servidor TCP. Usa el módulo http de Node para ello que tiene un método http.createServer() para servir peticiones HTTP.*
+
+*http.createServer() espera de parámetro un callback a invocar cuando se reciba una petición HTTP. La firma de dicho callback es la siguiente:*
+
+`function callback (request, response){/*...*/}`
+
+*Los parámetros request y response son los objetos que representan la petición y su respuesta respectivamente. La petición provee propiedades, como pueden ser el encabezado y los parámetros de la misma. La respuesta permite devolverle al cliente encabezados y un cuerpo (body).*
+
+*¡Ten en cuenta que ambos request y response son streams de Node! Por lo tanto puedes usar APIs de streaming para simplificar el envío de datos.*
+
+*La llamada a http.createServer() devuelve una instancia del server. Debes llamar a server.listen(portNumber) para comenzar la escucha en un puerto particular. Por ejemplo:*
+
+```
+const http = require 'http'
+const server = http.createServer(function(req, res){
+  //manejo de peticiones
+})
+server.listen(8000)
+```
+
+*La documentación del módulo http puede verse en:*  
+  file:///usr/local/lib/node_modules/learnyounode/docs-nodejs/http.html
+
+*Recuerda que el módulo fs tiene APIs para streaming de archivos. Debes usar fs.createReadStream() para crear un stream que represente el archivo de entrada. Luego puedes concatenar el stream con pipe src.pipe(dst) para pasar los datos del stream src al stream writer de salida dst. Es decir puedes conectar un filesystem stream a un HTTP response stream.*
+
+Bueno lo primero que toca como siempre es el uso del modo estricto y la importación de los módulos necesarios para crear el servidor http por un lado y el manejo de archivos por el otro. Esto será:
+
+```
+'use strict'
+
+const http = require('http')
+const fs = require('fs')
+```
+
+Lo siguiente es crear el servidor http que una vez activado y escuchando en el puerto especificado por línea de comandos, debería devolver como respuesta a cualquier petición recibida a través de dicho puerto el contenido de un archivo. La ruta a ese archivo se especifica también en la línea de comandos, por lo que si el cliente es un navegador por ejemplo, la respuesta deberá incluir un código de estado http con la información necesaria para poder presentar el contenido del archivo adecuadamente. Esto será:
+
+```
+const server = http.createServer(function(req, res){
+
+  //código de estado sin comprobación y formato de la respuesta
+  res.writeHead(200{'content-type':'text/plain'})
+
+  //Crea un flujo de lectura desde un archivo y lo conecta al objeto de repuesta "res",
+  //enviando el contenido directamente al cliente.
+
+  fs.createReadStream(process.arg[3]).pipe(res)
+  })
+
+server.listen(Number(process.argv[2]))
+```
+Con esto, estando en el directorio del script si tecleamos:
+
+`node http-server.js 3000 archivo.txt`
+
+- El servidor estará disponible en el puerto 3000
+
+- Cuando accedamos al servidor, devolverá el contenido de archivo.txt como texto plano
+
+Aquí adjunto una versión mejorada de la implementación del servidor, que incluye comprobación de errores antes de enviar el código de estado http:
+
+```
+'use strict'
+const http = require('http')
+const fs = require('fs')
+
+const server = http.createServer(function (req, res) {
+  const filePath = process.argv[3]
+
+  // Intenta leer el archivo
+  fs.stat(filePath, (err) => {
+    if (err) {
+      // Si ocurre un error, responde con un código 404
+      res.writeHead(404, { 'content-type': 'text/plain' })
+      res.end('File not found')
+    } else {
+      // Si todo está bien, responde con un código 200 y el archivo
+      res.writeHead(200, { 'content-type': 'text/plain' })
+      fs.createReadStream(filePath).pipe(res)
+    }
+  })
+})
+
+server.listen(Number(process.argv[2]))
+```
+*Archivo:* http-server.js
