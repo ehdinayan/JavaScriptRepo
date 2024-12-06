@@ -506,7 +506,7 @@ function now() {
 }
 ```  
 
-La función now se vale a su vez de la función zeroFill para ir formateando adecuadamente los resultados arrojados por los métodos del objeto new Date para obtener mes, hora, dia y minutos de la fecha actual en elformato requerido.
+La función now se vale a su vez de la función zeroFill para ir formateando adecuadamente los resultados arrojados por los métodos del objeto new Date para obtener mes, hora, dia y minutos de la fecha actual en el formato requerido.
 
 Lo que resta es crear un servidor TCP utilizando el método *createServer* del módulo **net.** Este método toma una función de devolución de llamada que se ejecuta cada vez que se establece una nueva conexión con el servidor. Dentro de esta función de devolución de llamada, el servidor envía la fecha y hora actual al cliente que se conecta utilizando el método end del objeto socket, ya que lo que hace es ejecutar la función **now** que se acaba de explicar.
 
@@ -611,3 +611,79 @@ const server = http.createServer(function (req, res) {
 server.listen(Number(process.argv[2]))
 ```
 *Archivo:* http-server.js
+
+## TRANSFORMADOR A MAYÚSCULAS HTTP (Ejercicio 12 de 13)
+
+*Escribe un servidor HTTP que reciba sólo peticiones POST y convierta los caracteres del cuerpo de la petición a mayúsculas y lo devuelva al cliente.*  
+
+*El servidor deberá escuchar en un puerto cuyo número será el*
+*primer argumento del programa.*
+
+## PISTAS
+
+*Para resolver el ejercicio es conveniente usar las capacidades de*  
+streaming *de los objetos request y response pero no obligatorio.*  
+
+*Hay muchos paquetes en el registro de npm que permiten transformar*
+streams. *Para este ejercicio sugerimos usar `through2-map` pues su API es simple.*
+
+`through2-map` *te permite crear un transform stream que recibe un chunk data y lo devuelve modificado. Funciona como `Array#map()` pero se aplica a* streams:
+
+```
+const map = require('through2-map')  
+     inStream.pipe(map(function (chunk) {  
+       return chunk.toString().split('').reverse().join('')  
+     })).pipe(outStream)
+```
+*En el ejemplo inStream se convierte a String luego se inverten los caracteres y el resultado se concatena al outStream. Básicamente es un inversor de caracteres. Recuerda que el tamaño del chunk se determina al principio (up-stream) y no hay mucho control del tamaño de los datos recibidos por el servidor.*    
+
+*Para instalar through2-map escribe en la consola:*
+
+`$ npm install through2-map`
+
+*En caso de no tener conexión a Internet, simplemente crea una carpeta node_modules y copia el paquete desde el directorio de instalación de learnyounode, es decir:*
+
+file:///usr/local/lib/node_modules/learnyounode/node_modules/through2-map
+
+*La documentación de through2-map puede verse en:*
+
+file:///usr/local/lib/node_modules/learnyounode/docs/through2-map.html
+
+
+ Vale aquí resultará útil centrarse en los objetivos del programa y ahondar en los aspectos más relevantes únicamente, ya que el código se encuentra en el script.
+
+ - crear servidor http:
+
+ usaremos el módulo nativo de Node http
+
+ - filtrar solicitudes que no sean POST
+
+ - leer y transformar el cuerpo de las solicitudes:
+
+ usaremos **streams** para procesar los datos y el módulo instalable **through2-map** para mapearlos o transformarlos
+
+Creación del servidor:
+
+```
+const server = http.createServer(function(req, res){
+  //filtrar solicitudes no deseadas
+  if (req !== 'POST') {
+    return res.end ('send me a POST\n');
+  }
+
+  //procesar el cuerpo de la solicitud
+  req.pipe(map(function (chunk) {
+    //conversion del flujo de entrada a una cadena y posteriormente a mayúsculas
+    return chunk.toString().toUpperCase();
+  })).pipe(res);
+})
+
+```
+
+Si a esto añadimos el uso del modo estricto y la importación de módulos, además del uso de process.arg[2] para recibir el puerto de escucha por la línea de comandos:
+
+`server.listen(Number(process.argv[2]));`
+
+Ya tenemos el servidor a punto!
+
+*Archivo:* uppercase-server.js

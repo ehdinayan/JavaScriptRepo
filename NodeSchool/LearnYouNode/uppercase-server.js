@@ -1,3 +1,4 @@
+/*
 const http = require('http');
 const map = require('through2-map');
 
@@ -22,7 +23,9 @@ server.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
 
-/*Versión oficial
+*/
+
+Versión oficial
 
 'use strict'
     const http = require('http')
@@ -39,4 +42,3 @@ server.listen(port, () => {
     })
 
     server.listen(Number(process.argv[2]))
-*/
